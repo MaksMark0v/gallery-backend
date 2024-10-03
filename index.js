@@ -1,12 +1,35 @@
-import http from 'http';
-import getRandomInt from './helpers/random-numbers';
+import express from 'express';
 
-const server = http.createServer ((req, res) =>{
+import getRandomInt from './helpers/random-numbers.js';
+
+// import index from './resourses/index.html'
+
+const app = express();
+const API_PORT = 5002;
+
+app.get('/', (req, res) => {
     const randomNumber = getRandomInt(1, 100);
-    res.writeHead (200, { 'Content-Type': 'text/plain' });
-    res.end(`Hello World!\nFrom nodejs\n${randomNumber}`);
+    res.send(`Hello World!\nFrom express\n${randomNumber}`);
 });
 
-server.listen(5002, () => {
-    console.log('Server is running at http://localhost:5002/');
+
+app.get('/page', (req, res) => {
+    
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery docs</title>
+</head>
+<body style="background-color: black;">
+    <h1 style="text-align: center; color: aliceblue;">Gallery Documentation</h1>    
+</body>
+</html>`);
+
 });
+
+app.listen(API_PORT, () => {
+    console.log(`Server running at http://localhost:${API_PORT}/`)
+});
+
