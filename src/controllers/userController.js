@@ -1,12 +1,19 @@
 import bodyParser from 'body-parser';
 import getRandomInt from '../helpers/random-numbers.js';
 
+import { getUserData } from '../repository/userRepo.js';
+
 import router from '../router/index.js';
 
 router.get('/', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.send(`Hello World YAY\nFrom express\n${getRandomInt(1, 100)}`);
   });
+
+router.get('/user', async (req, res) => {
+    const userData = await getUserData();
+    res.send(userData);
+  })
   
   router.get('/user/:id', function (req, res) {
     const userId = req.params.id;
