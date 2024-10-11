@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import getRandomInt from '../helpers/random-numbers.js';
 
-import { getUserData } from '../repository/userRepo.js';
+import { getUsersData } from '../repository/userRepo.js';
 
 import router from '../router/index.js';
 
@@ -11,9 +11,18 @@ router.get('/', (req, res) => {
   });
 
 router.get('/user', async (req, res) => {
-    const userData = await getUserData();
-    res.send(userData);
-  })
+  try {
+    console.log('req: ', req.query);
+    
+    const usersData = await getUsersData(req.query);
+    res.send(usersData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
+   
+    
+  });
   
   router.get('/user/:id', function (req, res) {
     const userId = req.params.id;
