@@ -31,3 +31,23 @@ export async function getUsersData(query) {
     CountPages: Math.ceil(users.length / query.size || 1)
   };
 }
+
+export async function getUserDetails(userId) {
+  const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  const userDetails = data.result.find(item => item.id === +userId);
+  if (!userDetails) {
+    return { message: 'User not found'}
+  }
+
+  return {
+    Id: userDetails.id,
+    FirstName: userDetails.name.first,
+    MiddleNameL: userDetails.name.middle,
+    LastName: userDetails.name.last,
+    UserName: userDetails.username,
+    Status: userDetails.status,
+    PhoneNumber: userDetails.phoneNumber,
+    Emails: userDetails.emails.join(', '),
+    Location: Object.entries(userDetails.location).map(([,value]) => value).join(', ')
+  };
+}
