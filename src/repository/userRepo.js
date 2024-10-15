@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 
 export async function getUsersData(query) {
   const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
@@ -50,4 +50,12 @@ export async function getUserDetails(userId) {
     Emails: userDetails.emails.join(', '),
     Location: Object.entries(userDetails.location).map(([,value]) => value).join(', ')
   };
+}
+
+export async function updateUser(userData) {
+  const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  const userObject = JSON.parse(userData);
+  data.result.push(userObject);
+  await writeFile('./resourses/db.json', JSON.stringify(data));
+  return userObject.id;
 }

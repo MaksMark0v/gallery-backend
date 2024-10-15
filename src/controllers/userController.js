@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import getRandomInt from '../helpers/random-numbers.js';
 
-import { getUsersData, getUserDetails } from '../repository/userRepo.js';
+import { getUsersData, getUserDetails, updateUser } from '../repository/userRepo.js';
 
 import router from '../router/index.js';
 
@@ -30,10 +30,15 @@ router.get('/user/:id',  async (req, res) => {
   }
 });
 
-router.post('/user', bodyParser.json(), function (req, res) {
+router.post('/user', bodyParser.json(), async (req, res) => {
   const newUser = req.body;
   const userData = JSON.stringify(newUser);
-  res.send(`New, user created! ${userData}`);
+  try {
+    const Id = await updateUser(userData);
+    res.send({ Id });
+  } catch (error) {
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
 });
 
 export default router;
