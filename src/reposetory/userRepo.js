@@ -35,3 +35,26 @@ export async function getUsersData(query) {
     CountPages: Math.ceil(users.length / query.size || 1) // Визначення кількості сторінок
   };
 }
+export async function getUserDetails(userId) {
+  const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  const userDetails = data.result.find(item => item.id === +userId);
+  if (!userDetails) {
+    return { message: 'User not found' }
+  }
+  return {
+    Id: userDetails.id,
+    FirstName: userDetails.name.first,
+    MiddleNameL: userDetails.name.middle,
+    LastName: userDetails.name.last,
+    UserName: userDetails.username,
+    Status: userDetails.status,
+    PhoneNumber: userDetails.phoneNumber,
+    Emails: userDetails.emails.join(', '),
+    Location: Object.values(userDetails.location) // Отримання всіх значень об'єкта userDetails.location
+      .flatMap(value =>
+        typeof value === 'object' // Перевірка, чи є значення об'єктом
+          ? Object.values(value) // Якщо значення є об'єктом, отримуємо його значення
+          : value // Якщо значення не є об'єктом, залишаємо його без змін
+      ).join(', ') // Об'єднуємо всі значення в один рядок, розділений комами
+  };
+}

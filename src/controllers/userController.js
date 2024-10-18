@@ -3,7 +3,7 @@ import path from 'path';
 import getRandomInt from '../helpers/random-numbers.js'; // Імпорт функції для генерації випадкових чисел
 
 import router from '../router/index.js';
-import { getUsersData } from '../reposetory/userRepo.js';
+import { getUsersData, getUserDetails } from '../reposetory/userRepo.js';
 
 const __dirname = path.resolve();
 
@@ -31,9 +31,14 @@ router.get('/user', async (req, res) => {
 });
 
 // Роут для користувача за ID
-router.get('/user/:id', function (req, res) {
+router.get('/user/:id',  async (req, res) => {
   const userId = req.params.id; // Отримання ID користувача з параметрів запиту
-  res.send(`hello, user! ${userId}`); // Відправка відповіді з ID користувача
+  try {
+    const usersDetails = await getUserDetails(userId);
+    res.send(usersDetails);
+  } catch (error) {
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
 });
 
 export default router;
