@@ -1,224 +1,209 @@
 {
-    "result": [
-        {
-            "message": "Hello, Leonardo! Your order number is: #78",
-            "phoneNumber": "738-873-6375",
-            "phoneVariation": "+90 354 716 10 66",
-            "status": "active",
-            "name": {
-                "first": "Vernie",
-                "middle": "Drew",
-                "last": "Oberbrunner"
-            },
-            "username": "Vernie-Oberbrunner",
-            "password": "wdGIvd0ynG6KjFq",
-            "emails": [
-                "Vicky_Halvorson@example.com",
-                "Donnie_Pouros52@gmail.com"
-            ],
-            "location": {
-                "street": "11563 Dickinson Inlet",
-                "city": "Adrienton",
-                "state": "Louisiana",
-                "country": "Kiribati",
-                "zip": "46423",
-                "coordinates": {
-                    "latitude": "53.983",
-                    "longitude": "3.5931"
-                }
-            },
-            "website": "https://glorious-glass.biz/",
-            "domain": "automatic-suspension.com",
-            "job": {
-                "title": "Lead Data Designer",
-                "descriptor": "Senior",
-                "area": "Identity",
-                "type": "Specialist",
-                "company": "Larkin, Ward and Runolfsson"
-            },
-            "creditCard": {
-                "number": "3448-636215-26355",
-                "cvv": "009",
-                "issuer": "mastercard"
-            },
-            "uuid": "f69b676b-076a-483b-90e0-d662eb632fbd",
-            "objectId": "6703e089b14c29afcfa71376"
-        },
-        {
-            "message": "Hello, Marjorie! Your order number is: #32",
-            "phoneNumber": "339.621.1361 x05344",
-            "phoneVariation": "+90 394 493 10 77",
-            "status": "disabled",
-            "name": {
-                "first": "Adah",
-                "middle": "Shiloh",
-                "last": "Friesen"
-            },
-            "username": "Adah-Friesen",
-            "password": "izp3EUFXrAKjjKr",
-            "emails": [
-                "Soledad_Terry28@example.com",
-                "Myrl_Feeney25@example.com"
-            ],
-            "location": {
-                "street": "170 Kaleb Fort",
-                "city": "Lake Calista",
-                "state": "Nevada",
-                "country": "Saint Martin",
-                "zip": "34112",
-                "coordinates": {
-                    "latitude": "19.3222",
-                    "longitude": "-134.6087"
-                }
-            },
-            "website": "https://flawed-optimization.biz/",
-            "domain": "straight-matchmaker.name",
-            "job": {
-                "title": "Global Research Coordinator",
-                "descriptor": "Legacy",
-                "area": "Mobility",
-                "type": "Facilitator",
-                "company": "Von and Sons"
-            },
-            "creditCard": {
-                "number": "3529-6861-0954-3878",
-                "cvv": "551",
-                "issuer": "american_express"
-            },
-            "uuid": "b84233e9-e708-40c4-891b-2b4eb7494dd7",
-            "objectId": "6703e089b14c29afcfa71377"
-        },
-        {
-            "message": "Hello, Jaylen! Your order number is: #71",
-            "phoneNumber": "615.593.4779 x71032",
-            "phoneVariation": "+90 327 228 10 93",
-            "status": "active",
-            "name": {
-                "first": "Antonietta",
-                "middle": "Billie",
-                "last": "Halvorson-Parker"
-            },
-            "username": "Antonietta-Halvorson-Parker",
-            "password": "vih94edJUZ8gTTR",
-            "emails": [
-                "Nolan72@example.com",
-                "Valentine.Weissnat36@gmail.com"
-            ],
-            "location": {
-                "street": "69346 Abe Tunnel",
-                "city": "Willmschester",
-                "state": "South Carolina",
-                "country": "Saint Pierre and Miquelon",
-                "zip": "18141-2532",
-                "coordinates": {
-                    "latitude": "65.9818",
-                    "longitude": "-62.9291"
-                }
-            },
-            "website": "https://foolhardy-reluctance.com/",
-            "domain": "faithful-marketplace.com",
-            "job": {
-                "title": "Investor Usability Coordinator",
-                "descriptor": "Global",
-                "area": "Intranet",
-                "type": "Manager",
-                "company": "Ankunding LLC"
-            },
-            "creditCard": {
-                "number": "3528-5337-9993-8995",
-                "cvv": "393",
-                "issuer": "jcb"
-            },
-            "uuid": "917c42ab-a866-46de-a7f0-6dc905e01445",
-            "objectId": "6703e089b14c29afcfa71378"
-        },
-        {
-            "message": "Hello, Kyler! Your order number is: #98",
-            "phoneNumber": "297.960.3204 x58614",
-            "phoneVariation": "+90 326 455 10 66",
-            "status": "disabled",
-            "name": {
-                "first": "Lafayette",
-                "middle": "Micah",
-                "last": "Osinski"
-            },
-            "username": "Lafayette-Osinski",
-            "password": "FlrnxZlspPKa1MB",
-            "emails": [
-                "Napoleon93@example.com",
-                "Vicente75@gmail.com"
-            ],
-            "location": {
-                "street": "51517 N Front Street",
-                "city": "Terryberg",
-                "state": "New Mexico",
-                "country": "Saint Martin",
-                "zip": "40752",
-                "coordinates": {
-                    "latitude": "-82.0155",
-                    "longitude": "-55.1693"
-                }
-            },
-            "website": "https://hot-hurdle.name/",
-            "domain": "whimsical-viewer.name",
-            "job": {
-                "title": "International Integration Director",
-                "descriptor": "Senior",
-                "area": "Operations",
-                "type": "Representative",
-                "company": "Will and Sons"
-            },
-            "creditCard": {
-                "number": "4731-5178-3962-9483",
-                "cvv": "798",
-                "issuer": "american_express"
-            },
-            "uuid": "f438c1ab-d3a1-425b-ac28-5b7c72aa0956",
-            "objectId": "6703e089b14c29afcfa71379"
-        },
-        {
-            "message": "Hello, Emmy! Your order number is: #37",
-            "phoneNumber": "1-247-810-5073",
-            "phoneVariation": "+90 354 771 10 46",
-            "status": "active",
-            "name": {
-                "first": "Lessie",
-                "middle": "Kennedy",
-                "last": "Ullrich"
-            },
-            "username": "Lessie-Ullrich",
-            "password": "v27S3Y5Y20C0R0n",
-            "emails": [
-                "Chase_Beatty46@example.com",
-                "Torey.Boyle@example.com"
-            ],
-            "location": {
-                "street": "249 Izaiah Ridges",
-                "city": "North Maximillianboro",
-                "state": "Oregon",
-                "country": "Morocco",
-                "zip": "94501",
-                "coordinates": {
-                    "latitude": "-66.7513",
-                    "longitude": "96.5515"
-                }
-            },
-            "website": "https://good-haircut.net",
-            "domain": "vivacious-female.org",
-            "job": {
-                "title": "Lead Markets Manager",
-                "descriptor": "Direct",
-                "area": "Usability",
-                "type": "Supervisor",
-                "company": "Mitchell Group"
-            },
-            "creditCard": {
-                "number": "3738-557508-44876",
-                "cvv": "543",
-                "issuer": "discover"
-            },
-            "uuid": "173a7985-1e46-481a-9ed1-064281a04008",
-            "objectId": "6703e089b14c29afcfa7137a"
+  "result": [
+    {
+      "message": "Hello, Leonardo! Your order number is: #78",
+      "phoneNumber": "738-873-6375",
+      "phoneVariation": "+90 354 716 10 66",
+      "status": "active",
+      "name": {
+        "first": "Vernie",
+        "middle": "Drew",
+        "last": "Oberbrunner"
+      },
+      "username": "Vernie-Oberbrunner",
+      "password": "wdGIvd0ynG6KjFq",
+      "emails": ["Vicky_Halvorson@example.com", "Donnie_Pouros52@gmail.com"],
+      "location": {
+        "street": "11563 Dickinson Inlet",
+        "city": "Adrienton",
+        "state": "Louisiana",
+        "country": "Kiribati",
+        "zip": "46423",
+        "coordinates": {
+          "latitude": "53.983",
+          "longitude": "3.5931"
         }
-    ]
+      },
+      "website": "https://glorious-glass.biz/",
+      "domain": "automatic-suspension.com",
+      "job": {
+        "title": "Lead Data Designer",
+        "descriptor": "Senior",
+        "area": "Identity",
+        "type": "Specialist",
+        "company": "Larkin, Ward and Runolfsson"
+      },
+      "creditCard": {
+        "number": "3448-636215-26355",
+        "cvv": "009",
+        "issuer": "mastercard"
+      },
+      "uuid": "f69b676b-076a-483b-90e0-d662eb632fbd",
+      "objectId": "6703e089b14c29afcfa71376"
+    },
+    {
+      "message": "Hello, Marjorie! Your order number is: #32",
+      "phoneNumber": "339.621.1361 x05344",
+      "phoneVariation": "+90 394 493 10 77",
+      "status": "disabled",
+      "name": {
+        "first": "Adah",
+        "middle": "Shiloh",
+        "last": "Friesen"
+      },
+      "username": "Adah-Friesen",
+      "password": "izp3EUFXrAKjjKr",
+      "emails": ["Soledad_Terry28@example.com", "Myrl_Feeney25@example.com"],
+      "location": {
+        "street": "170 Kaleb Fort",
+        "city": "Lake Calista",
+        "state": "Nevada",
+        "country": "Saint Martin",
+        "zip": "34112",
+        "coordinates": {
+          "latitude": "19.3222",
+          "longitude": "-134.6087"
+        }
+      },
+      "website": "https://flawed-optimization.biz/",
+      "domain": "straight-matchmaker.name",
+      "job": {
+        "title": "Global Research Coordinator",
+        "descriptor": "Legacy",
+        "area": "Mobility",
+        "type": "Facilitator",
+        "company": "Von and Sons"
+      },
+      "creditCard": {
+        "number": "3529-6861-0954-3878",
+        "cvv": "551",
+        "issuer": "american_express"
+      },
+      "uuid": "b84233e9-e708-40c4-891b-2b4eb7494dd7",
+      "objectId": "6703e089b14c29afcfa71377"
+    },
+    {
+      "message": "Hello, Jaylen! Your order number is: #71",
+      "phoneNumber": "615.593.4779 x71032",
+      "phoneVariation": "+90 327 228 10 93",
+      "status": "active",
+      "name": {
+        "first": "Antonietta",
+        "middle": "Billie",
+        "last": "Halvorson-Parker"
+      },
+      "username": "Antonietta-Halvorson-Parker",
+      "password": "vih94edJUZ8gTTR",
+      "emails": ["Nolan72@example.com", "Valentine.Weissnat36@gmail.com"],
+      "location": {
+        "street": "69346 Abe Tunnel",
+        "city": "Willmschester",
+        "state": "South Carolina",
+        "country": "Saint Pierre and Miquelon",
+        "zip": "18141-2532",
+        "coordinates": {
+          "latitude": "65.9818",
+          "longitude": "-62.9291"
+        }
+      },
+      "website": "https://foolhardy-reluctance.com/",
+      "domain": "faithful-marketplace.com",
+      "job": {
+        "title": "Investor Usability Coordinator",
+        "descriptor": "Global",
+        "area": "Intranet",
+        "type": "Manager",
+        "company": "Ankunding LLC"
+      },
+      "creditCard": {
+        "number": "3528-5337-9993-8995",
+        "cvv": "393",
+        "issuer": "jcb"
+      },
+      "uuid": "917c42ab-a866-46de-a7f0-6dc905e01445",
+      "objectId": "6703e089b14c29afcfa71378"
+    },
+    {
+      "message": "Hello, Kyler! Your order number is: #98",
+      "phoneNumber": "297.960.3204 x58614",
+      "phoneVariation": "+90 326 455 10 66",
+      "status": "disabled",
+      "name": {
+        "first": "Lafayette",
+        "middle": "Micah",
+        "last": "Osinski"
+      },
+      "username": "Lafayette-Osinski",
+      "password": "FlrnxZlspPKa1MB",
+      "emails": ["Napoleon93@example.com", "Vicente75@gmail.com"],
+      "location": {
+        "street": "51517 N Front Street",
+        "city": "Terryberg",
+        "state": "New Mexico",
+        "country": "Saint Martin",
+        "zip": "40752",
+        "coordinates": {
+          "latitude": "-82.0155",
+          "longitude": "-55.1693"
+        }
+      },
+      "website": "https://hot-hurdle.name/",
+      "domain": "whimsical-viewer.name",
+      "job": {
+        "title": "International Integration Director",
+        "descriptor": "Senior",
+        "area": "Operations",
+        "type": "Representative",
+        "company": "Will and Sons"
+      },
+      "creditCard": {
+        "number": "4731-5178-3962-9483",
+        "cvv": "798",
+        "issuer": "american_express"
+      },
+      "uuid": "f438c1ab-d3a1-425b-ac28-5b7c72aa0956",
+      "objectId": "6703e089b14c29afcfa71379"
+    },
+    {
+      "message": "Hello, Emmy! Your order number is: #37",
+      "phoneNumber": "1-247-810-5073",
+      "phoneVariation": "+90 354 771 10 46",
+      "status": "active",
+      "name": {
+        "first": "Lessie",
+        "middle": "Kennedy",
+        "last": "Ullrich"
+      },
+      "username": "Lessie-Ullrich",
+      "password": "v27S3Y5Y20C0R0n",
+      "emails": ["Chase_Beatty46@example.com", "Torey.Boyle@example.com"],
+      "location": {
+        "street": "249 Izaiah Ridges",
+        "city": "North Maximillianboro",
+        "state": "Oregon",
+        "country": "Morocco",
+        "zip": "94501",
+        "coordinates": {
+          "latitude": "-66.7513",
+          "longitude": "96.5515"
+        }
+      },
+      "website": "https://good-haircut.net",
+      "domain": "vivacious-female.org",
+      "job": {
+        "title": "Lead Markets Manager",
+        "descriptor": "Direct",
+        "area": "Usability",
+        "type": "Supervisor",
+        "company": "Mitchell Group"
+      },
+      "creditCard": {
+        "number": "3738-557508-44876",
+        "cvv": "543",
+        "issuer": "discover"
+      },
+      "uuid": "173a7985-1e46-481a-9ed1-064281a04008",
+      "objectId": "6703e089b14c29afcfa7137a"
+    }
+  ]
 }
