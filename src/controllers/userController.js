@@ -1,14 +1,8 @@
 import bodyParser from 'body-parser';
-import getRandomInt from '../helpers/random-numbers.js';
 
-import { getUsersData, getUserDetails, updateUser } from '../repository/userRepo.js';
+import { getUsersData, getUserDetails, saveUser } from '../repository/userRepo.js';
 
 import router from '../router/index.js';
-
-router.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'text/html');
-  res.send(`Hello World YAY\nFrom express\n${getRandomInt(1, 100)}`);
-});
 
 router.get('/user', async (req, res) => {
   try {
@@ -34,7 +28,18 @@ router.post('/user', bodyParser.json(), async (req, res) => {
   const newUser = req.body;
   const userData = JSON.stringify(newUser);
   try {
-    const Id = await updateUser(userData);
+    const Id = await saveUser(userData);
+    res.send({ Id });
+  } catch (error) {
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
+});
+
+router.put('/user/:id', bodyParser.json(), async (req, res) => {
+  const newUser = req.body;
+  const userData = JSON.stringify(newUser);
+  try {
+    const Id = await saveUser(userData, req.params.id);
     res.send({ Id });
   } catch (error) {
     res.status(500).send(`Internal server error: ${error.message}`);

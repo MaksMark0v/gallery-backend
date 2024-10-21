@@ -55,10 +55,18 @@ export async function getUserDetails(userId) {
   };
 }
 
-export async function updateUser(userData) {
-  const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+export async function saveUser(userData, userId) {
+  const dataBase = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  if (userId) {
+    const userData = dataBase.result.find(item => item.id === +userId);
+    console.log(3, userData);
+    if (!userData) {
+      throw new Error('User not found');
+    }
+  }
   const userObject = JSON.parse(userData);
-  data.result.push(userObject);
-  await writeFile('./resourses/db.json', JSON.stringify(data));
+  console.log(423, userObject);
+  dataBase.result.push(userObject);
+  await writeFile('./resourses/db.json', JSON.stringify(dataBase));
   return userObject.id;
 }
