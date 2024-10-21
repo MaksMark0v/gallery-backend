@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 
-export async function getUsersData(query) {
+export async function getUsersData({ page, size, filter }) {
   const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
   const users = data.result.map((user) => {
     return {
@@ -12,23 +12,24 @@ export async function getUsersData(query) {
     };
   });
 
-  let paginatedUsers = users;
-  if (query.page && query.size) {
-    const lastIndex = query.page * query.size;
-    const firstIndex = lastIndex - query.size;
-    paginatedUsers = users.slice(firstIndex, lastIndex);
+  let filterdUser = users;
+  if (filter && filter.Status) {
+    filterdUser = filterdUser.filter(
+      (user) => user.Status === filter.Status
+    );
   }
 
-  if (query.filter && query.filter.Status) {
-    paginatedUsers = paginatedUsers.filter(
-      (user) => user.Status === query.filter.Status
-    );
+  let paginatedUsers = filterdUser;
+  if (page && size) {
+    const lastIndex = page * size;
+    const firstIndex = lastIndex - size;
+    paginatedUsers = paginatedUsers.slice(firstIndex, lastIndex);
   }
 
   return {
     Data: paginatedUsers,
-    Count: users.length,
-    CountPages: Math.ceil(users.length / query.size || 1)
+    Count: filterdUser.length,
+    CountPages: Math.ceil(filterdUser.length / size || 1)
   };
 }
 
@@ -48,7 +49,9 @@ export async function getUserDetails(userId) {
     Status: userDetails.status,
     PhoneNumber: userDetails.phoneNumber,
     Emails: userDetails.emails.join(', '),
-    Location: Object.entries(userDetails.location).map(([,value]) => value).join(', ')
+    Location: Object.entries(userDetails.location)
+    .map(([,value]) => typeof value === 'object' ? Object.values(value).flat() : value)
+    .join(', ')
   };
 }
 
