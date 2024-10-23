@@ -1,11 +1,13 @@
-import path from 'path';
+// import path from 'path';
 
 import getRandomInt from '../helpers/random-numbers.js'; // Імпорт функції для генерації випадкових чисел
 
 import router from '../router/index.js';
-import { getUsersData, getUserDetails } from '../reposetory/userRepo.js';
 
-const __dirname = path.resolve();
+import { getUsersData, getUserDetails, saveUser } from '../reposetory/userRepo.js';
+import bodyParser from 'body-parser';
+
+// const __dirname = path.resolve();
 
 // Роут для головної сторінки
 router.get('/', (req, res) => {
@@ -15,10 +17,10 @@ router.get('/', (req, res) => {
   ); // Відправка відповіді з випадковим числом
 });
 
-router.get('/page', (req, res) => {
-  const pathToResourses = `${__dirname}/resourses/`;
-  res.sendFile(pathToResourses, 'index.html');
-});
+// router.get('/page', (req, res) => {
+//   const pathToResourses = `${__dirname}/resourses/`;
+//   res.sendFile(pathToResourses, 'index.html');
+// });
 
 router.get('/user', async (req, res) => {
   try {
@@ -33,6 +35,7 @@ router.get('/user', async (req, res) => {
 // Роут для користувача за ID
 router.get('/user/:id',  async (req, res) => {
   const userId = req.params.id; // Отримання ID користувача з параметрів запиту
+  console.log(1, userId);
   try {
     const usersDetails = await getUserDetails(userId);
     res.send(usersDetails);
@@ -40,5 +43,28 @@ router.get('/user/:id',  async (req, res) => {
     res.status(500).send(`Internal server error: ${error.message}`);
   }
 });
+
+  router.post('/user', bodyParser.json(), async (req, res) => {
+    const newUser = req.body;
+    const userData = JSON.stringify(newUser);
+    try {
+      const Id = await saveUser(userData);
+      res.send({ Id });
+    } catch (error) {
+      res.status(500).send(`Internal server error: ${error.message}`);
+    }
+  });
+
+  router.put('/user/:id', bodyParser.json(), async (req, res) => {
+    const newUser = req.body;
+    const userData = JSON.stringify(newUser);
+    try {
+      const Id = await saveUser(userData, req.params.id);
+      res.send({ Id });
+    } catch (error) {
+      res.status(500).send(`Internal server error: ${error.message}`);
+    }
+  });
+
 
 export default router;

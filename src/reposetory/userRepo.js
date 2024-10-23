@@ -1,6 +1,6 @@
-import { readFile } from 'fs/promises'; // Імпорт функції readFile з модуля fs/promises для роботи з файлами асинхронно
+import { readFile, writeFile } from 'fs/promises'; // Імпорт функції readFile з модуля fs/promises для роботи з файлами асинхронно
 
-export async function getUsersData(query) {
+export async function getUsersData({ page, size, filter }) {
   const data = JSON.parse(await readFile('./resourses/db.json', 'utf8')); // Читання файлу db.json та парсинг JSON-даних
   const users = data.result.map((user) => {
     // Створення нового масиву користувачів з потрібними полями
@@ -13,26 +13,28 @@ export async function getUsersData(query) {
     };
   });
 
-  let paginatedUsers = users; // Ініціалізація змінної для зберігання пагінованих користувачів
-  if (query.page && query.size) {
-    // Перевірка наявності параметрів пагінації у запиті
-    const lastIndex = query.page * query.size; // Визначення останнього індексу
-    const firstIndex = lastIndex - query.size; // Визначення першого індексу
-    paginatedUsers = users.slice(firstIndex, lastIndex); // Вибірка пагінованих користувачів
-  }
-
-  if (query.filter && query.filter.Status) {
-    // Перевірка наявності фільтру 'active' у запиті
-    console.log(query);
-    paginatedUsers = paginatedUsers.filter(
-      (user) => user.Status === query.filter.Status
+  let filterUser = users;
+  if (filter && filter.Status) {
+    // Перевірка наявності фільтру у запиті
+    filterUser = filterUser.filter(
+      (user) => user.Status === filter.Status
     );
   }
 
+  let paginatedUsers = filterUser; // Ініціалізація змінної для зберігання пагінованих користувачів
+  if (page && size) {
+    // Перевірка наявності параметрів пагінації у запиті
+    const lastIndex = page * size; // Визначення останнього індексу
+    const firstIndex = lastIndex - size; // Визначення першого індексу
+    paginatedUsers = paginatedUsers.slice(firstIndex, lastIndex); // Вибірка пагінованих користувачів
+  }
+
+
+
   return {
     Data: paginatedUsers, // Відправка даних користувачів
-    Count: users.length, // Загальна кількість користувачів
-    CountPages: Math.ceil(users.length / query.size || 1) // Визначення кількості сторінок
+    Count: filterUser.length, // Загальна кількість користувачів
+    CountPages: Math.ceil(filterUser.length / size || 1) // Визначення кількості сторінок
   };
 }
 export async function getUserDetails(userId) {
@@ -57,4 +59,19 @@ export async function getUserDetails(userId) {
           : value // Якщо значення не є об'єктом, залишаємо його без змін
       ).join(', ') // Об'єднуємо всі значення в один рядок, розділений комами
   };
+} 
+export async function saveUser(userData, userId) {
+  const dataBase = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  if (userId) {
+    const userData = dataBase.result.find(item => item.id === +userId);
+    console.log(3, userData);
+    if (!userData) {
+      throw new Error('User not found');
+    }
+  }
+  const userObject = JSON.parse(userData);
+  console.log(423, userObject);
+  dataBase.result.push(userObject);
+  await writeFile('./resourses/db.json', JSON.stringify(dataBase));
+  return userObject.id;
 }
