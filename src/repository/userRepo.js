@@ -63,11 +63,11 @@ export async function saveUser(userData, userId) {
     if (!existedUserDataIndex) {
       throw new Error('User not found');
     }
-    dataBase.result[existedUserDataIndex] = JSON.parse(userData);
+    dataBase.result[existedUserDataIndex] = userData;
     userObject.id = userId;
   } else {
     const highestId = dataBase.result.slice(-1).pop().id;
-    const newUserData = JSON.parse(userData);
+    const newUserData = userData;
     newUserData.id = highestId + 1;
     userObject = newUserData;
     dataBase.result.push(userObject);

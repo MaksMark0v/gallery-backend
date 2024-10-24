@@ -26,9 +26,8 @@ router.get('/user/:id',  async (req, res) => {
 
 router.post('/user', bodyParser.json(), async (req, res) => {  
   const newUser = req.body;
-  const userData = JSON.stringify(newUser);
   try {
-    const Id = await saveUser(userData);
+    const Id = await saveUser(newUser);
     res.send({ Id });
   } catch (error) {
     res.status(500).send(`Internal server error: ${error.message}`);
@@ -36,8 +35,7 @@ router.post('/user', bodyParser.json(), async (req, res) => {
 });
 
 router.put('/user/:id', bodyParser.json(), async (req, res) => {
-  const newUser = req.body;
-  const userData = JSON.stringify(newUser);
+  const userData = req.body;
   try {
     const Id = await saveUser(userData, req.params.id);
     res.send({ Id });
