@@ -33,7 +33,7 @@ router.get('/user', async (req, res) => {
 });
 
 // Роут для користувача за ID
-router.get('/user/:id',  async (req, res) => {
+router.get('/user/:id', async (req, res) => {
   const userId = req.params.id; // Отримання ID користувача з параметрів запиту
   console.log(1, userId);
   try {
@@ -44,27 +44,26 @@ router.get('/user/:id',  async (req, res) => {
   }
 });
 
-  router.post('/user', bodyParser.json(), async (req, res) => {
-    const newUser = req.body;
-    const userData = JSON.stringify(newUser);
-    try {
-      const Id = await saveUser(userData);
-      res.send({ Id });
-    } catch (error) {
-      res.status(500).send(`Internal server error: ${error.message}`);
-    }
-  });
+router.post('/user', bodyParser.json(), async (req, res) => {
+  const newUser = req.body;
+  try {
+    const Id = await saveUser(newUser);
+    res.send({ Id });
+  } catch (error) {
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
+});
 
-  router.put('/user/:id', bodyParser.json(), async (req, res) => {
-    const newUser = req.body;
-    const userData = JSON.stringify(newUser);
-    try {
-      const Id = await saveUser(userData, req.params.id);
-      res.send({ Id });
-    } catch (error) {
-      res.status(500).send(`Internal server error: ${error.message}`);
-    }
-  });
+router.put('/user/:id', bodyParser.json(), async (req, res) => {
+
+  const userData = req.body;
+  try {
+    const Id = await saveUser(userData, req.params.id);
+    res.send({ Id });
+  } catch (error) {
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
+});
 
 
 export default router;

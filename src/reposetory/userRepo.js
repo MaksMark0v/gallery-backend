@@ -59,19 +59,26 @@ export async function getUserDetails(userId) {
           : value // Якщо значення не є об'єктом, залишаємо його без змін
       ).join(', ') // Об'єднуємо всі значення в один рядок, розділений комами
   };
-} 
+}
 export async function saveUser(userData, userId) {
   const dataBase = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  let userObject = {};
   if (userId) {
-    const userData = dataBase.result.find(item => item.id === +userId);
-    console.log(3, userData);
-    if (!userData) {
+
+    const existedUserDataIndex = dataBase.result.findIndex(item => item.id === +userId);
+    if (!existedUserDataIndex) {
       throw new Error('User not found');
     }
+    dataBase.result[existedUserDataIndex] = userData;
+    userObject.id = userId;
+  } else {
+    const highestId = dataBase.result.slice(-1).pop().id;
+    const newUserData = userData;
+    newUserData.id = highestId + 1;
+    userObject = newUserData;
+    dataBase.result.push(userObject);
   }
-  const userObject = JSON.parse(userData);
-  console.log(423, userObject);
-  dataBase.result.push(userObject);
+
   await writeFile('./resourses/db.json', JSON.stringify(dataBase));
   return userObject.id;
 }
