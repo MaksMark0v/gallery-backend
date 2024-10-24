@@ -24,7 +24,7 @@ router.get('/user/:id',  async (req, res) => {
   }
 });
 
-router.post('/user', bodyParser.json(), async (req, res) => {
+router.post('/user', bodyParser.json(), async (req, res) => {  
   const newUser = req.body;
   const userData = JSON.stringify(newUser);
   try {
