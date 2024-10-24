@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser';
 
-import { getUsersData, getUserDetails, saveUser } from '../repository/userRepo.js';
+import { getUsersData, getUserDetails, saveUser, deleteUser } from '../repository/userRepo.js';
 
 import router from '../router/index.js';
 
@@ -39,6 +39,16 @@ router.put('/user/:id', bodyParser.json(), async (req, res) => {
   try {
     const Id = await saveUser(userData, req.params.id);
     res.send({ Id });
+  } catch (error) {
+    res.status(500).send(`Internal server error: ${error.message}`);
+  }
+});
+
+router.delete('/user/:id', async (req, res) => {
+  try {
+    await deleteUser(req.params.id);
+    res.status(204);
+    res.end();
   } catch (error) {
     res.status(500).send(`Internal server error: ${error.message}`);
   }

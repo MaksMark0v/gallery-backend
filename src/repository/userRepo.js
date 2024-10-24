@@ -76,3 +76,13 @@ export async function saveUser(userData, userId) {
   await writeFile('./resourses/db.json', JSON.stringify(dataBase));
   return userObject.id;
 }
+
+export async function deleteUser(userId) {
+  const dataBase = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
+  const existedUserDataIndex = dataBase.result.findIndex(item => item.id === +userId);
+  if (!existedUserDataIndex || existedUserDataIndex === -1) {
+    throw new Error('User not exists');
+  }
+  dataBase.result.splice(existedUserDataIndex, 1);
+  await writeFile('./resourses/db.json', JSON.stringify(dataBase));
+}
