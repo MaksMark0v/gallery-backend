@@ -3,10 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+export let isDbConnectionInited = false;
 
 const sequelize = new Sequelize({
     logging: console.log,
-    
+
     dialect: process.env.DB_DIALIECT,
     port: +process.env.DB_PORT,
     host: process.env.DB_HOSTNAME,
@@ -21,6 +22,7 @@ export async function initDatatbaseConnection() {
     try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
+        isDbConnectionInited = true;
       } catch (error) {
         console.error('Unable to connect to the database:', error);
       }
