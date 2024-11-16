@@ -20,7 +20,7 @@ export async function createServer(){
   );
   
   app.listen(API_PORT, () => {
-    console.log(`Server running at http://localhost:${API_PORT}/`); // Запуск сервера на визначеному порту
+    console.log(`Server running at port ${API_PORT}`); // Запуск сервера на визначеному порту
   });
 }
 
