@@ -36,7 +36,7 @@ export async function runMigrations(db) {
       }
       console.log(`Migration "${file}" applying...`, { scope: 'migrations' });
   
-      const { up, down } = require(path.join(migrationsPath, file));
+      const { up, down } = await import(path.join(migrationsPath, file));
   
       if (!up || !down) {
         throw new Error(`Invalid migration functions in file ${file}`);
@@ -77,7 +77,7 @@ export async function revertMigration(db, name) {
       throw new Error(`Migration "${name}" not applied`);
     }
   
-    const { up, down } = require(migrationFile);
+    const { up, down } = await import(migrationFile);
   
     if (!up || !down) {
       throw new Error(`Invalid migration functions in file ${migrationFile}`);
