@@ -7,6 +7,7 @@
     "test": "test",
     "start": "node index.js",
     "dev": "nodemon src/bin/www.js",
+    "db:down": "node src/bin/migration-revert.js",
     "format": "prettier --write .",
     "lint:prettier": "prettier . --check",
     "lint": "eslint . ",
@@ -34,6 +35,7 @@
     "express": "^4.21.0",
     "helmet": "^8.0.0",
     "mysql2": "^3.11.4",
+    "regenerator-runtime": "^0.14.1",
     "sequelize": "^6.37.5"
   },
   "devDependencies": {

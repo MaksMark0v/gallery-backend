@@ -4,6 +4,17 @@ import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-pa
 
 import userController from '../controllers/userController.js';
 
+// Імпортуємо функцію runMigrations з модуля migration.js,
+// яка, ймовірно, відповідає за виконання міграцій бази даних.
+import { runMigrations } from './migration.js';
+
+// Імпортуємо за замовчуванням екземпляр підключення до бази даних (sequelize)
+// з модуля db.js, а також названий експорт isDbConnectionInited,
+// який, можливо, є булевою змінною або функцією, що вказує на те,
+// чи було ініціалізовано підключення до бази даних.
+import sequelize, { isDbConnectionInited } from './db.js';
+
+
 const API_PORT = 5002; // Визначення порту для сервера
 export async function createServer(){
   const app = express(); // Створення екземпляру Express
@@ -18,6 +29,11 @@ export async function createServer(){
       xPoweredBy: false // Вимкнення заголовка 'x-powered-by' за допомогою helmet
     })
   );
+ // Перевіряємо, чи ініціалізовано з'єднання з базою даних
+if (isDbConnectionInited) {
+  // Якщо з'єднання ініціалізовано, виконуємо міграції бази даних
+  await runMigrations(sequelize);
+  }
   
   app.listen(API_PORT, () => {
     console.log(`Server running at port ${API_PORT}`); // Запуск сервера на визначеному порту
