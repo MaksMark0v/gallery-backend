@@ -6,11 +6,12 @@ import Migration from '../models/_Migration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 export async function runMigrations(db) {
     const migrationsPath = path.join(__dirname, '..', 'migrations');
 
     const queryInterface = db.getQueryInterface();
-    queryInterface.createTable('_migrations', {
+    await queryInterface.createTable('_migrations', {
         Name: sequelize.DataTypes.STRING,
         AppliedAt: {
             type: sequelize.DataTypes.DATE,
@@ -35,7 +36,8 @@ export async function runMigrations(db) {
         }
         console.log(`Migration "${file}" applying...`, { scope: 'migrations' });
 
-        const { up, down } = await import(path.join(migrationsPath, file));
+        const filePath = new URL(`file://${path.join(migrationsPath, file)}`);
+        const { up, down } = await import(filePath);
 
         if (!up || !down) {
             throw new Error(`Invalid migration functions in file ${file}`);
@@ -44,7 +46,7 @@ export async function runMigrations(db) {
 
         const item = new Migration({
             Name: file,
-            AppliedAt: Date.now()
+            AppliedAt: new Date()
         });
         await item.save();
     }
@@ -60,6 +62,7 @@ export async function runMigrations(db) {
         });
     }
 }
+
 export async function revertMigration(db, name) {
     const migrationFile = path.join(__dirname, '..', 'migrations', name);
 
@@ -72,7 +75,8 @@ export async function revertMigration(db, name) {
         throw new Error(`Migration "${name}" not applied`);
     }
 
-    const { up, down } = await import(migrationFile);
+    const filePath = new URL(`file://${migrationFile}`);
+    const { up, down } = await import(filePath);
 
     if (!up || !down) {
         throw new Error(`Invalid migration functions in file ${migrationFile}`);
