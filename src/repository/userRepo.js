@@ -40,37 +40,6 @@ export async function getUsersData({ page, size, filter }) {
     Count,
     CountPages: Math.ceil(Count / size || 1)
   };
-
-  // const data = JSON.parse(await readFile('./resourses/db.json', 'utf8'));
-  // const users = data.result.map((user) => {
-  //   return {
-  //     FirstName: user.name.first,
-  //     MiddleNameL: user.name.middle,
-  //     LastName: user.name.last,
-  //     UserName: user.username,
-  //     Status: user.status
-  //   };
-  // });
-
-  // let filterdUser = users;
-  // if (filter && filter.Status) {
-  //   filterdUser = filterdUser.filter(
-  //     (user) => user.Status === filter.Status
-  //   );
-  // }
-
-  // let paginatedUsers = filterdUser;
-  // if (page && size) {
-  //   const lastIndex = page * size;
-  //   const firstIndex = lastIndex - size;
-  //   paginatedUsers = paginatedUsers.slice(firstIndex, lastIndex);
-  // }
-
-  // return {
-  //   Data: paginatedUsers,
-  //   Count: filterdUser.length,
-  //   CountPages: Math.ceil(filterdUser.length / size || 1)
-  // };
 }
 
 export async function getUserDetails(userId) {
