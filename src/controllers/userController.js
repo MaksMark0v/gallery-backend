@@ -65,11 +65,15 @@ router.put('/user/:id', bodyParser.json(), async (req, res) => {
 // Роут для видалення користувача за ID
 router.delete('/user/:id', async (req, res) => {
   try {
-    const Id = await deleteUser(null, req.params.id); // Видалення користувача за ID
-    res.send({ Id }); // Відправка ID видаленого користувача у відповіді
+    const Id = await deleteUser(req.params.id); // Видалення користувача за ID
+    if (!Id){
+    res.status(404).send('User not found');
+  }; // Відправка ID видаленого користувача у відповіді
+  res.status(204).end();
   } catch (error) {
     res.status(500).send(`Internal server error: ${error.message}`); // Відправка відповіді з помилкою
   }
+  
 });
 
 export default router; // Експорт роутера за замовчуванням

@@ -19,7 +19,8 @@ export async function getUsersData({ page, size, filter }) {
       'Email',
       'Status'
     ],
-    include: [
+  }
+    const include = [
       {
         model: Gallery,
         include: [
@@ -29,7 +30,6 @@ export async function getUsersData({ page, size, filter }) {
         ]
       }
     ]
-  };
 
   if (filter && filter.Status) {
     params.where.Status = filter.Status;
@@ -37,6 +37,7 @@ export async function getUsersData({ page, size, filter }) {
 
   const Data = await User.findAll({
     ...params,
+    include,
     offset: (page - 1) * size,
     limit: +size
   });
@@ -119,20 +120,20 @@ export async function saveUser(userData, userId) {
 }
 
 export async function deleteUser(userId) {
-  console.log(1, `Attempting to delete user with ID: ${userId}`);
   const user = await User.findOne({
     where: {
       Id: userId,
-      DeletedAt: { [Op.is]: null
+      DeletedAt: {
+        [Op.is]: null
       }
     }
   }
   );
-  console.log(2, `User found: ${user !== null}`);
   if (!user) {
-    throw new Error('User not found');
-  } await user.destroy();
-  console.log(3,`User with ID: ${userId} deleted successfully`);
+    return null
+  }
+  user.DeletedAt = new Date(); // Міняємо статус користувача на 'Deleted'
+  await user.save(); // Збереження змін
   return userId; // Повернення ID видаленого користувача 
 }
 
