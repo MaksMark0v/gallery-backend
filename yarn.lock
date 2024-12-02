@@ -2861,11 +2861,6 @@ helmet@^4.6.0:
   resolved "https://registry.npmjs.org/helmet/-/helmet-4.6.0.tgz"
   integrity sha512-HVqALKZlR95ROkrnesdhbbZJFi/rIVSoNq6f3jA/9u6MIbTsPh3xZwihjeI5+DO/2sOV6HMHooXcEOuwskHpTg==
 
-hoek@4.x.x:
-  version "4.2.1"
-  resolved "https://registry.npmjs.org/hoek/-/hoek-4.2.1.tgz"
-  integrity sha512-QLg82fGkfnJ/4iy1xZ81/9SIJiq1NGFUMGs6ParyjBZr6jW2Ufj/snDqTHixNlHdPNwN2RLVD0Pi3igeK9+JfA==
-
 hosted-git-info@^2.1.4:
   version "2.8.9"
   resolved "https://registry.npmjs.org/hosted-git-info/-/hosted-git-info-2.8.9.tgz"
@@ -3301,11 +3296,6 @@ isarray@~1.0.0:
   resolved "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz"
   integrity sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==
 
-isemail@2.x.x:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/isemail/-/isemail-2.2.1.tgz"
-  integrity sha512-LPjFxaTatluwGAJlGe4FtRdzg0a9KlXrahHoHAR4HwRNf90Ttwi6sOQ9zj+EoCPmk9yyK+WFUqkm0imUo8UJbw==
-
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
@@ -3377,22 +3367,7 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-items@2.x.x:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/items/-/items-2.1.1.tgz"
-  integrity sha512-FostKmQF+keorBcI+TjGbPHOFdGI39hPqwySgth29nmPXxAdEybGv8vHhyjqQ9yE3vXBuYIXNXg9ozbUX7dH0A==
-
-joi@^10.4.1:
-  version "10.6.0"
-  resolved "https://registry.npmjs.org/joi/-/joi-10.6.0.tgz"
-  integrity sha512-hBF3LcqyAid+9X/pwg+eXjD2QBZI5eXnBFJYaAkH4SK3mp9QSRiiQnDYlmlz5pccMvnLcJRS4whhDOTCkmsAdQ==
-  dependencies:
-    hoek "4.x.x"
-    isemail "2.x.x"
-    items "2.x.x"
-    topo "2.x.x"
-
-joi@^17.6.0:
+joi@^17.13.3, joi@^17.6.0:
   version "17.13.3"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.13.3.tgz#0f5cc1169c999b30d344366d384b12d92558bcec"
   integrity sha512-otDA4ldcIx+ZXsKHWmp0YizCweVRZG96J10b0FevjfuncLO1oX59THoAmHkNubYJ+9gWsYsp5k8v4ib6oDv1fA==
@@ -6054,13 +6029,6 @@ token-stream@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/token-stream/-/token-stream-1.0.0.tgz"
   integrity sha512-VSsyNPPW74RpHwR8Fc21uubwHY7wMDeJLys2IX5zJNih+OnAnaifKHo+1LHT7DAdloQ7apeaaWg8l7qnf/TnEg==
-
-topo@2.x.x:
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/topo/-/topo-2.0.2.tgz"
-  integrity sha512-QMfJ9TC5lKcmLZImOZ/BTSWJeVbay7XK2nlzvFALW3BA5OkvBnbs0poku4EsRpDMndDVnM58EU/8D3ZcoVehWg==
-  dependencies:
-    hoek "4.x.x"
 
 touch@^3.1.0:
   version "3.1.0"
