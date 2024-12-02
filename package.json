@@ -104,7 +104,7 @@
     "eslint-plugin-import": "^2.2.0",
     "husky": "^3.0.7",
     "mocha": "^10.8.2",
-    "nodemon": "^2.0.1",
+    "nodemon": "^3.1.7",
     "nyc": "^15.1.0",
     "opn-cli": "^5.0.0",
     "sinon": "^7.5.0",
