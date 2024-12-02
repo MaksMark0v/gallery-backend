@@ -97,7 +97,7 @@
   "devDependencies": {
     "apidoc": "^0.28.1",
     "chai": "^4.5.0",
-    "chai-as-promised": "^7.1.1",
+    "chai-as-promised": "^8.0.1",
     "coveralls": "^3.0.0",
     "eslint": "^7.29.0",
     "eslint-config-airbnb-base": "^14.2.0",
