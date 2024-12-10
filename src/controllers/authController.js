@@ -5,7 +5,7 @@ router.get('/auth', async (req, res) => {
         console.log('auth');
         res.status(204).end();
     } catch (error) {
-      console.error(error); 
+      console.error(error);
       res.status(500).send(`Internal server error: ${error.message}`); 
     }
   });

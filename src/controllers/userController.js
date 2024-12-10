@@ -1,5 +1,6 @@
 // import path from 'path'; // Імпорт модуля path для роботи з файловими шляхами (закоментовано)
 import getRandomInt from '../helpers/random-numbers.js'; // Імпорт функції для генерації випадкових чисел
+import jwt from '../middleware/authMiddleware.js';
 import router from '../router/index.js'; // Імпорт роутера
 import { getUsersData, getUserDetails, saveUser, deleteUser } from '../reposetory/userRepo.js'; // Імпорт функцій для роботи з даними користувачів
 import bodyParser from 'body-parser'; // Імпорт модуля body-parser для парсингу JSON-запитів
@@ -18,7 +19,7 @@ router.get('/', (req, res) => {
 // });
 
 // Роут для отримання даних користувачів
-router.get('/user', async (req, res) => {
+router.get('/user', jwt, async (req, res) => {
   try {
     const usersData = await getUsersData(req.query); // Отримання даних користувачів з запиту
     res.send(usersData); // Відправка даних користувачів у відповіді
