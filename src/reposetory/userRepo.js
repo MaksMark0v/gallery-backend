@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
 import Gallery from '../models/Gallery.js';
 import Picture from '../models/Picture.js';
 
-export async function getUsersData({ page, size, filter }) {
+export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const params = {
     where: {
       DeletedAt: { [Op.is]: null }
@@ -44,7 +44,7 @@ export async function getUsersData({ page, size, filter }) {
   const Count = await User.count(params);
 
   return {
-    Data,
+    Data ,
     Count,
     CountPages: Math.ceil(Count / size || 1)
   };
