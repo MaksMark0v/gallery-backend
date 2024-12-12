@@ -16,7 +16,7 @@ const model = User.init({
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    Middlename: {
+    MiddleName: {
         type: DataTypes.STRING(255),
         allowNull: true
     },

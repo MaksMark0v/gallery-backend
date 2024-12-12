@@ -1,10 +1,11 @@
 // import { readFile, writeFile } from 'fs/promises'; // Імпорт функцій readFile та writeFile з модуля fs/promises для роботи з файлами асинхронно
+import _ from "underscore";
+import { Op } from 'sequelize';
+
 
 import User from '../models/User.js';
-
-import { Op } from 'sequelize';
 import Gallery from '../models/Gallery.js';
-import Picture from '../models/Picture.js';
+
 
 export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const params = {
@@ -14,6 +15,7 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
     attributes: [
       'Id',
       'FirstName',
+      'IsAdmin',
       'MiddleName',
       'LastName',
       'Email',
@@ -94,28 +96,36 @@ export async function saveUser(userData, userId) {
 
   const defaultPasswordHash = 'defaultHashValue';
   const defaultPasswordSalt = 'defaultSaltValue';
-  userData.PasswordHash = userData.PasswordHash || defaultPasswordHash;
-  userData.PasswordSalt = userData.PasswordSalt || defaultPasswordSalt;
+
   // ----------------------------------------------------------------
   if (userId) {
     userObject = await User.findOne({ where: { Id: userId } });
     if (!userObject) {
-      throw new Error('User not found'); // Кидаємо помилку, якщо користувача не знайдено 
+      return; // як альтернатива - завершувати виконання функції щоб повертався undefined
+      // throw new Error('User not found'); // Кидаємо помилку, якщо користувача не знайдено 
     }
-    await userObject.update(userData); // Оновлення даних існуючого користувача 
   } else {
-    userObject = await User.create(userData); // Створення нового користувача 
-  } // Обробка даних галерей 
-  if (userData.galleries) {
-    for (const galleryData of userData.galleries) {
-      const gallery = await Gallery.create({ UserId: userObject.Id, ...galleryData }); // Обробка даних картин 
-      if (galleryData.pictures) {
-        for (const pictureData of galleryData.pictures) {
-          await Picture.create({ GalleryId: gallery.Id, ...pictureData });
-        }
-      }
-    }
+    userObject = new User({
+      IsAdmin: 0,
+      Status: 'not_approved',
+      PasswordHash: defaultPasswordHash,
+      PasswordSalt: defaultPasswordSalt
+    }) // Створення нового користувача 
   }
+
+      // Picks required fields from body and save data to request table
+      const fields = [
+        'FirstName',
+        'MiddleName',
+        'LastName',
+        'Email'
+      ];
+
+      const data = _.pick(userData, fields);
+      Object.assign(userObject, data);
+
+      await userObject.save();
+
   return userObject.Id; // Повернення ID збереженого користувача
 }
 
