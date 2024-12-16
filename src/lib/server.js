@@ -3,6 +3,7 @@ import helmet from 'helmet'; // Імпорт модуля helmet для підв
 import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-parser для роботи з кукі
 
 import userController from '../controllers/userController.js';
+import authController from '../controllers/authController.js';
 
 // Імпортуємо функцію runMigrations з модуля migration.js,
 // яка, ймовірно, відповідає за виконання міграцій бази даних.
@@ -22,6 +23,7 @@ export async function createServer(){
   app.use(cookieParser());
   
   app.use(userController); // Використання роутера у додатку
+  app.use(authController); 
   
   app.disable('x-powered-by'); // Вимкнення заголовка 'x-powered-by' для підвищення безпеки
   app.use(
