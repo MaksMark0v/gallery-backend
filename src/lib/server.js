@@ -2,6 +2,7 @@ import express from 'express'; // Імпорт фреймворку Express дл
 import helmet from 'helmet'; // Імпорт модуля helmet для підвищення безпеки додатку
 import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-parser для роботи з кукі
 
+import authController from '../controllers/authController.js';
 import userController from '../controllers/userController.js';
 import galleryController from '../controllers/galleryController.js';
 
@@ -24,7 +25,8 @@ export async function createServer(){
   
   app.use(userController); // Використання роутера у додатку
   app.use(galleryController);
-  
+  app.use(authController); // Використання роутера для авторизаці��
+
   app.disable('x-powered-by'); // Вимкнення заголовка 'x-powered-by' для підвищення безпеки
   app.use(
     helmet({
