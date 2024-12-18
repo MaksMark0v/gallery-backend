@@ -2,6 +2,7 @@ import express from 'express';
 import jwt from '../middleware/authMiddleware.js';
 import Gallery from '../models/Gallery.js';
 import { Op } from 'sequelize';
+import bodyParser from 'body-parser';
 
 const router = express.Router();
 
@@ -157,12 +158,15 @@ router.get('/user/:userId/galleries/:galleryId', jwt, async (req, res) => {
 });
 
 // Маршрут для створення нової галереї користувача
-router.post('/user/:userId/galleries', jwt, async (req, res) => {
+router.post('/user/:userId/galleries', bodyParser.json(), jwt, async (req, res) => {
     const newGallery = req.body;
     const userId = req.params.userId;
     try {
         if (!userId) {
             return res.status(400).send('UserId is required');
+        }
+        if (!newGallery.Name) {
+            return res.status(400).send('Gallery Name is required');
         }
         const Id = await addGallery(newGallery, userId);
         res.send({ Id });
@@ -172,7 +176,7 @@ router.post('/user/:userId/galleries', jwt, async (req, res) => {
 });
 
 // Маршрут для оновлення галереї користувача за ID
-router.put('/user/:userId/galleries/:galleryId', jwt, async (req, res) => {
+router.put('/user/:userId/galleries/:galleryId',  bodyParser.json(), jwt, async (req, res) => {
     const galleryData = req.body;
     const userId = req.params.userId;
     const galleryId = req.params.galleryId;
