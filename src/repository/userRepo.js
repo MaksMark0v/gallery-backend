@@ -1,12 +1,11 @@
 // import { readFile, writeFile } from 'fs/promises'; // Імпорт функцій readFile та writeFile з модуля fs/promises для роботи з файлами асинхронно
-
+import _ from "underscore";
 import User from '../models/User.js';
 
 import { Op } from 'sequelize';
 import Gallery from '../models/Gallery.js';
-import Picture from '../models/Picture.js';
 
-export async function getUsersData({ page = 1, size = 100, filter = {} }) {
+export async function getUsersData({ page, size, filter }) {
   const params = {
     where: {
       DeletedAt: { [Op.is]: null }
@@ -20,16 +19,16 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
       'Status'
     ],
   }
-    const include = [
-      {
-        model: Gallery,
-        include: [
-          {
-            association: 'Pictures'
-          }
-        ]
-      }
-    ]
+  const include = [
+    {
+      model: Gallery,
+      include: [
+        {
+          association: 'Pictures'
+        }
+      ]
+    }
+  ]
 
   if (filter && filter.Status) {
     params.where.Status = filter.Status;
@@ -38,13 +37,13 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const Data = await User.findAll({
     ...params,
     include,
-    offset: (page - 1) * size,
-    limit: +size
+    offset: ((page || 1) - 1) * (size || 100),
+    limit: +(size || 100)
   });
   const Count = await User.count(params);
 
   return {
-    Data ,
+    Data,
     Count,
     CountPages: Math.ceil(Count / size || 1)
   };
@@ -94,28 +93,30 @@ export async function saveUser(userData, userId) {
 
   const defaultPasswordHash = 'defaultHashValue';
   const defaultPasswordSalt = 'defaultSaltValue';
-  userData.PasswordHash = userData.PasswordHash || defaultPasswordHash;
-  userData.PasswordSalt = userData.PasswordSalt || defaultPasswordSalt;
+
   // ----------------------------------------------------------------
   if (userId) {
     userObject = await User.findOne({ where: { Id: userId } });
     if (!userObject) {
-      throw new Error('User not found'); // Кидаємо помилку, якщо користувача не знайдено 
+      return; // як альтернатива - завершувати виконання функції щоб повертався undefined      
     }
-    await userObject.update(userData); // Оновлення даних існуючого користувача 
   } else {
-    userObject = await User.create(userData); // Створення нового користувача 
-  } // Обробка даних галерей 
-  if (userData.galleries) {
-    for (const galleryData of userData.galleries) {
-      const gallery = await Gallery.create({ UserId: userObject.Id, ...galleryData }); // Обробка даних картин 
-      if (galleryData.pictures) {
-        for (const pictureData of galleryData.pictures) {
-          await Picture.create({ GalleryId: gallery.Id, ...pictureData });
-        }
-      }
-    }
+    userObject = new User({
+      IsAdmin: 0,
+      Status: 'not_approved',
+      PasswordHash: defaultPasswordHash,
+      PasswordSalt: defaultPasswordSalt
+    }) // Створення нового користувача 
   }
+  const fields = [
+    'FirstName',
+    'MiddleName',
+    'LastName',
+    'Email'
+  ];
+  const data = _.pick(userData, fields);
+  Object.assign(userObject, data);
+  await userObject.save();
   return userObject.Id; // Повернення ID збереженого користувача
 }
 

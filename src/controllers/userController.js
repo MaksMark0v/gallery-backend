@@ -2,7 +2,7 @@
 import getRandomInt from '../helpers/random-numbers.js'; // Імпорт функції для генерації випадкових чисел
 import jwt from '../middleware/authMiddleware.js';
 import router from '../router/index.js'; // Імпорт роутера
-import { getUsersData, getUserDetails, saveUser, deleteUser } from '../reposetory/userRepo.js'; // Імпорт функцій для роботи з даними користувачів
+import { getUsersData, getUserDetails, saveUser, deleteUser } from '../repository/userRepo.js'; // Імпорт функцій для роботи з даними користувачів
 import bodyParser from 'body-parser'; // Імпорт модуля body-parser для парсингу JSON-запитів
 
 // const __dirname = path.resolve(); // Визначення абсолютного шляху до кореневої директорії (закоментовано)
