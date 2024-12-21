@@ -31,8 +31,8 @@ export async function getGalleryData({ page = 1, size = 10, filter = {} }) {
         ],
     };
 
-    if (filter.Title) {
-        params.where.Name = { [Op.like]: `%${filter.Title}%` };
+    if (filter.Name) {
+        params.where.Name = { [Op.like]: `%${filter.Name}%` };
     }
 
     const include = [
