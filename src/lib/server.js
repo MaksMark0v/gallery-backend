@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-pa
 import authController from '../controllers/authController.js';
 import userController from '../controllers/userController.js';
 import galleryController from '../controllers/galleryController.js';
+import pictureController from '../controllers/pictureController.js';
 
 // Імпортуємо функцію runMigrations з модуля migration.js,
 // яка, ймовірно, відповідає за виконання міграцій бази даних.
@@ -25,6 +26,7 @@ export async function createServer(){
   
   app.use(userController); // Використання роутера у додатку
   app.use(galleryController);
+  app.use(pictureController);
   app.use(authController); // Використання роутера для авторизаці��
 
   app.disable('x-powered-by'); // Вимкнення заголовка 'x-powered-by' для підвищення безпеки
