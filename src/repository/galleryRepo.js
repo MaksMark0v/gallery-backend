@@ -25,14 +25,14 @@ export async function getGalleryData({ page = 1, size = 10, filter = {} }) {
         },
         attributes: [
             'Id',
-            'Title',
+            'Name',
             'Description',
             'UserId'
         ],
     };
 
     if (filter.Title) {
-        params.where.Title = { [Op.like]: `%${filter.Title}%` };
+        params.where.Name = { [Op.like]: `%${filter.Title}%` };
     }
 
     const include = [
@@ -65,7 +65,7 @@ export async function getGalleryDetails(galleryId) {
         },
         attributes: [
             'Id',
-            'Title',
+            'Name',
             'Description',
             'UserId'
         ],
