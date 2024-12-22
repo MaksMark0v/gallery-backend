@@ -1,6 +1,22 @@
 import CryptoJS from 'crypto-js'; // Імпорт бібліотеки CryptoJS для хешування паролів
 import User from '../models/User.js'; // Імпорт моделі User
+import generateJwt from '../helpers/generateJWT.js'; // Імпорт функції для генерації JWT-токенів
 
+
+// Функція для аутентифікації користувача за електронною поштою та паролем
+export async function loginByCredentials(Email, Password) {
+    const user = await User.findOne({
+        where: { Email },
+        attributes: ['Id', 'Email', 'PasswordHash', 'PasswordSalt'] // Вибір всіх необхідних полів користувача
+    });
+    const isValidUser = comparePasswords(Password, user.PasswordHash, user.PasswordSalt);
+    if (!isValidUser) {
+        return;
+    }
+    const token = generateJwt(user);
+    return { user, token };
+
+}
 // Функція для зміни пароля
 export async function changePassword(Email, Password) {
     // Пошук користувача за електронною поштою
@@ -21,6 +37,15 @@ export async function changePassword(Email, Password) {
     
     // Збереження оновленого користувача
     await user.save();
+}
+
+function comparePasswords(Password, Hash, Salt) {
+    const newHash = CryptoJS.PBKDF2(Password, Salt, {
+        keySize: 64 / 4, // Розмір ключа
+        iterations: 100, // Кількість ітерацій
+        hasher: CryptoJS.algo.SHA512 // Алгоритм хешування
+    }).toString(CryptoJS.enc.Hex);
+    return Hash === newHash
 }
 
 // Функція для хешування пароля
