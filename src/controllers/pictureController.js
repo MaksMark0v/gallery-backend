@@ -84,11 +84,10 @@ async function updatePicture(pictureData, galleryId, pictureId) {
     return picture.Id;
 }
 
-async function deletePicture(userId, galleryId, pictureId) {
+async function deletePicture(galleryId, pictureId) {
     const picture = await Picture.findOne({
         where: {
             Id: pictureId,
-            UserId: userId,
             GalleryId: galleryId,
             DeletedAt: { [Op.is]: null }
         }
@@ -171,7 +170,7 @@ router.delete('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwt, asy
         }
         const Id = await deletePicture( galleryId, pictureId);
         if (Id) {
-            res.status(404).send('Picture not found');
+            res.status(404).send(`Picture deleted ${Id}`);
         }
         res.status(200).end();
     } catch (error) {
