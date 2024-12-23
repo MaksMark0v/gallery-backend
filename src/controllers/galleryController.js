@@ -1,131 +1,9 @@
 import express from 'express';
 import jwt from '../middleware/authMiddleware.js';
-import Gallery from '../models/Gallery.js';
-import { Op } from 'sequelize';
 import bodyParser from 'body-parser';
+import { addGallery, getGalleryData, getGalleryDetails, updateGallery, deleteGallery } from '../repository/galleryRepo.js';
 
 const router = express.Router();
-
-// Функція для додавання нової галереї
-async function addGallery(galleryData, userId) {
-    try {
-        const newGallery = await Gallery.create({
-            ...galleryData,
-            UserId: userId // Зв'язування галереї з користувачем
-        });
-
-        return newGallery.Id;
-    } catch (error) {
-        console.error('Error creating gallery:', error);
-        throw new Error('Failed to create gallery');
-    }
-}
-
-// Функція для отримання даних галерей
-async function getGalleryData(userId, { page = 1, size = 10, filter = {} }) {
-    const params = {
-        where: {
-            UserId: userId, // Додавання умови для користувача
-            DeletedAt: { [Op.is]: null }
-        },
-        attributes: [
-            'Id',
-            'Name',
-            'UserId'
-        ],
-    };
-
-    if (filter.Name) {
-        params.where.Name = { [Op.like]: `%${filter.Name}%` };
-    }
-
-    const include = [
-        {
-            association: 'Pictures'
-        }
-    ];
-
-    const Data = await Gallery.findAll({
-        ...params,
-        include,
-        offset: (page - 1) * size,
-        limit: +size
-    });
-    const Count = await Gallery.count(params);
-
-    return {
-        Data,
-        Count,
-        CountPages: Math.ceil(Count / size || 1)
-    };
-}
-
-// Функція для отримання деталей галереї за ID
-async function getGalleryDetails(userId, galleryId) {
-    const gallery = await Gallery.findOne({
-        where: {
-            Id: galleryId,
-            UserId: userId, // Додавання умови для користувача
-            DeletedAt: { [Op.is]: null }
-        },
-        attributes: [
-            'Id',
-            'Name',
-            'UserId'
-        ],
-        include: [
-            {
-                association: 'Pictures'
-            }
-        ]
-    });
-
-    if (!gallery) {
-        throw new Error('Gallery not found');
-    }
-
-    return gallery;
-}
-
-// Функція для оновлення галереї
-async function updateGallery(galleryData, userId, galleryId) {
-    const gallery = await Gallery.findOne({
-        where: {
-            Id: galleryId,
-            UserId: userId, // Додавання умови для користувача
-            DeletedAt: { [Op.is]: null }
-        }
-    });
-
-    if (!gallery) {
-        throw new Error('Gallery not found');
-    }
-
-    Object.assign(gallery, galleryData);
-    await gallery.save();
-
-    return gallery.Id;
-}
-
-// Функція для видалення галереї (логічне видалення)
-async function deleteGallery(userId, galleryId) {
-    const gallery = await Gallery.findOne({
-        where: {
-            Id: galleryId,
-            UserId: userId, // Додавання умови для користувача
-            DeletedAt: { [Op.is]: null }
-        }
-    });
-
-    if (!gallery) {
-        return null;
-    }
-
-    gallery.DeletedAt = new Date();
-    await gallery.save();
-
-    return gallery.Id;
-}
 
 // Маршрут для отримання всіх галерей користувача
 router.get('/user/:userId/galleries', jwt, async (req, res) => {
@@ -176,7 +54,7 @@ router.post('/user/:userId/galleries', bodyParser.json(), jwt, async (req, res) 
 });
 
 // Маршрут для оновлення галереї користувача за ID
-router.put('/user/:userId/galleries/:galleryId',  bodyParser.json(), jwt, async (req, res) => {
+router.put('/user/:userId/galleries/:galleryId', bodyParser.json(), jwt, async (req, res) => {
     const galleryData = req.body;
     const userId = req.params.userId;
     const galleryId = req.params.galleryId;
