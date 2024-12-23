@@ -53,9 +53,10 @@ export async function getGalleryData(
   };
 }
 
-export async function getGalleryDetails(galleryId) {
+export async function getGalleryDetails(userId, galleryId) {
   const gallery = await Gallery.findOne({
     where: {
+      UserId: userId,
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     },
@@ -77,9 +78,10 @@ export async function getGalleryDetails(galleryId) {
   return gallery;
 }
 
-export async function updateGallery(galleryData, galleryId) {
+export async function updateGallery(userId, galleryData, galleryId) {
   const gallery = await Gallery.findOne({
     where: {
+      UserId: userId,
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     }
