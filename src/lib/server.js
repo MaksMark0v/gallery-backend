@@ -27,6 +27,15 @@ export async function createServer() {
   app.use(authRouter);
   app.use(galleryRouter);
 
+  app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      // res.setHeader('Content-Type', 'text/json');
+      res.status(401).json({ message: `Authorization error: ${err.message}` });
+    } else {
+      next(err);
+    }
+  });
+
   app.disable('x-powered-by'); // Вимкнення заголовка 'x-powered-by' для підвищення безпеки
   app.use(
     helmet({

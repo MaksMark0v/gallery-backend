@@ -1,11 +1,17 @@
-import { changePassword, loginByCredentials } from '../repository/authRepo.js';
+import {
+  changePassword,
+  getUserDetailsByEmail,
+  loginByCredentials
+} from '../repository/authRepo.js';
 
-const authVerifyController = async (req, res) => {
+const userDetailsController = async (req, res) => {
+  console.log(req.auth);
   try {
-    res.status(204).end();
+    const { userDetails } = await getUserDetailsByEmail(req.auth.Email);
+    res.status(200).json(userDetails);
   } catch (error) {
     console.error(error);
-    res.status(500).send(`Internal server error: ${error.message}`);
+    res.status(500).json(`Internal server error: ${error.message}`);
   }
 };
 
@@ -27,7 +33,7 @@ const loginController = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).send(`Internal server error: ${error.message}`);
+    res.status(500).json(`Internal server error: ${error.message}`);
   }
 };
 
@@ -39,8 +45,8 @@ const changePasswordController = async (req, res) => {
     res.send({ message: 'Password changed' });
   } catch (error) {
     console.error(error);
-    res.status(500).send(`Internal server error: ${error.message}`);
+    res.status(500).json(`Internal server error: ${error.message}`);
   }
 };
 
-export { authVerifyController, loginController, changePasswordController };
+export { userDetailsController, loginController, changePasswordController };

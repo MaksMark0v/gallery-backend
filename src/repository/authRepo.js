@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js';
 import User from '../models/User.js';
 import generateJwt from '../helpers/generateJWT.js';
+import { Op } from 'sequelize';
 
 export async function loginByCredentials(Email, Password) {
   const user = await User.findOne({
@@ -70,4 +71,47 @@ function hashPassword(Password) {
   }).toString(CryptoJS.enc.Hex);
 
   return { hash, salt };
+}
+
+export async function getUserDetailsByEmail(email) {
+  const user = await User.findOne({
+    where: {
+      Email: email,
+      DeletedAt: { [Op.is]: null }
+    },
+    attributes: [
+      'Id',
+      'FirstName',
+      'MiddleName',
+      'LastName',
+      'Email',
+      'Status',
+      'IsAdmin',
+      'CreatedAt',
+      'UpdatedAt'
+    ]
+  });
+
+  if (!user) {
+    return { message: 'User not found' };
+  }
+
+  return {
+    userDetails: user
+  };
+}
+
+export async function getUserId(email) {
+  const user = await User.findOne({
+    where: {
+      Email: email,
+      DeletedAt: { [Op.is]: null }
+    },
+    attributes: ['Id']
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user.Id;
 }
