@@ -17,7 +17,8 @@ export async function loginByCredentials(Email, Password) {
   });
 
   if (!user) {
-    throw new Error('Something went wrong');
+    // throw new Error('Something went wrong');
+    return;
   }
 
   const isValidUser = comparePasswords(
@@ -92,13 +93,7 @@ export async function getUserDetailsByEmail(email) {
     ]
   });
 
-  if (!user) {
-    return { message: 'User not found' };
-  }
-
-  return {
-    userDetails: user
-  };
+  return user;
 }
 
 export async function getUserId(email) {

@@ -6,75 +6,74 @@ import {
   updateGallery
 } from '../repository/galleryRepo.js';
 
-const getAllGalleryController = async (req, res) => {
+const getAllGalleryController = async (req, res, next) => {
   try {
     const userId = req.auth.userId;
     const galleryData = await getGalleryData(userId, req.query);
-    res.send(galleryData);
+    res.json(galleryData);
   } catch (error) {
-    console.error(error);
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-const getGalleryController = async (req, res) => {
+const getGalleryController = async (req, res, next) => {
   const userId = req.auth.userId;
   const galleryId = req.params.galleryId;
   try {
     if (!galleryId) {
-      return res.status(400).json('GalleryId is required');
+      return res.status(400).json({ message: 'GalleryId is required' });
     }
     const galleryDetails = await getGalleryDetails(userId, galleryId);
-    res.send(galleryDetails);
+    res.json(galleryDetails);
   } catch (error) {
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-const createGalleryController = async (req, res) => {
+const createGalleryController = async (req, res, next) => {
   const newGallery = req.body;
   const userId = req.auth.userId;
   try {
     if (!newGallery.Name) {
-      return res.status(400).json('Gallery Name is required');
+      return res.status(400).json({ message: 'GalleryName is required' });
     }
     const Id = await addGallery(newGallery, userId);
     res.send({ Id });
   } catch (error) {
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-const updateGalleryController = async (req, res) => {
+const updateGalleryController = async (req, res, next) => {
   const galleryData = req.body;
   const userId = req.auth.userId;
   const galleryId = req.params.galleryId;
   try {
     if (!galleryId) {
-      return res.status(400).json('GalleryId is required');
+      return res.status(400).json({ message: 'GalleryId is required' });
     }
     const Id = await updateGallery(galleryData, userId, galleryId);
-    res.send({ Id });
+    res.json({ Id });
   } catch (error) {
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-const deleteGalleryController = async (req, res) => {
+const deleteGalleryController = async (req, res, next) => {
   const userId = req.auth.userId;
   const galleryId = req.params.galleryId;
 
   try {
     if (!galleryId) {
-      return res.status(400).send('GalleryId is required');
+      return res.status(400).json({ message: 'GalleryId is required' });
     }
     const Id = await deleteGallery(userId, galleryId);
     if (!Id) {
-      res.status(404).json('Gallery not found');
+      res.status(404).json({ message: 'Gallery not found' });
     }
     res.status(204).end();
   } catch (error) {
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 

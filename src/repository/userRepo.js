@@ -1,11 +1,8 @@
-// import { readFile, writeFile } from 'fs/promises'; // Імпорт функцій readFile та writeFile з модуля fs/promises для роботи з файлами асинхронно
-import _ from "underscore";
+import _ from 'underscore';
 import { Op } from 'sequelize';
-
 
 import User from '../models/User.js';
 import Gallery from '../models/Gallery.js';
-
 
 export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const params = {
@@ -20,18 +17,19 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
       'LastName',
       'Email',
       'Status'
-    ],
-  }
-    const include = [
-      {
-        model: Gallery,
-        include: [
-          {
-            association: 'Pictures'
-          }
-        ]
-      }
     ]
+  };
+
+  const include = [
+    {
+      model: Gallery,
+      include: [
+        {
+          association: 'Pictures'
+        }
+      ]
+    }
+  ];
 
   if (filter && filter.Status) {
     params.where.Status = filter.Status;
@@ -46,7 +44,7 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const Count = await User.count(params);
 
   return {
-    Data ,
+    Data,
     Count,
     CountPages: Math.ceil(Count / size || 1)
   };
@@ -78,21 +76,14 @@ export async function getUserDetails(userId) {
     ]
   });
 
-  if (!user) {
-    return { message: 'User not found' }; // Повідомлення, якщо користувача не знайдено
-  }
-
-  return {
-    userDetails: user // Повернення даних користувача
-  };
+  return user;
 }
-
 
 export async function saveUser(userData, userId) {
   let userObject = {};
 
   // ----------------------------------------------------------------
-  // Встановлення значень за замовчуванням для обов'язкових полів, якщо вони відсутні 
+  // Встановлення значень за замовчуванням для обов'язкових полів, якщо вони відсутні
 
   const defaultPasswordHash = 'defaultHashValue';
   const defaultPasswordSalt = 'defaultSaltValue';
@@ -101,8 +92,7 @@ export async function saveUser(userData, userId) {
   if (userId) {
     userObject = await User.findOne({ where: { Id: userId } });
     if (!userObject) {
-      return; // як альтернатива - завершувати виконання функції щоб повертався undefined
-      // throw new Error('User not found'); // Кидаємо помилку, якщо користувача не знайдено 
+      throw new Error('User not found!');
     }
   } else {
     userObject = new User({
@@ -110,23 +100,17 @@ export async function saveUser(userData, userId) {
       Status: 'not_approved',
       PasswordHash: defaultPasswordHash,
       PasswordSalt: defaultPasswordSalt
-    }) // Створення нового користувача 
+    });
   }
 
-      // Picks required fields from body and save data to request table
-      const fields = [
-        'FirstName',
-        'MiddleName',
-        'LastName',
-        'Email'
-      ];
+  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email'];
 
-      const data = _.pick(userData, fields);
-      Object.assign(userObject, data);
+  const data = _.pick(userData, fields);
+  Object.assign(userObject, data);
 
-      await userObject.save();
+  await userObject.save();
 
-  return userObject.Id; // Повернення ID збереженого користувача
+  return userObject.Id;
 }
 
 export async function deleteUser(userId) {
@@ -137,13 +121,11 @@ export async function deleteUser(userId) {
         [Op.is]: null
       }
     }
-  }
-  );
+  });
   if (!user) {
-    return null
+    throw new Error('User not found!');
   }
-  user.DeletedAt = new Date(); // Міняємо статус користувача на 'Deleted'
-  await user.save(); // Збереження змін
-  return userId; // Повернення ID видаленого користувача 
+  user.DeletedAt = new Date();
+  await user.save();
+  return userId;
 }
-

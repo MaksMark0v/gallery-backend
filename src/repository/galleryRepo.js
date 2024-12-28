@@ -24,7 +24,6 @@ export async function getGalleryData(
       UserId: userId,
       DeletedAt: { [Op.is]: null }
     },
-    //   attributes: ['Id', 'Name', 'Description', 'UserId']
     attributes: ['Id', 'Name', 'UserId']
   };
 
@@ -60,7 +59,6 @@ export async function getGalleryDetails(userId, galleryId) {
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     },
-    // attributes: ['Id', 'Title', 'Description', 'UserId'],
     attributes: ['Id', 'Name', 'UserId'],
 
     include: [

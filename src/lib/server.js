@@ -3,7 +3,7 @@ import helmet from 'helmet'; // Імпорт модуля helmet для підв
 import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-parser для роботи з кукі
 
 import authRouter from '../router/authRouter.js';
-// import userController from '../controllers/userController.js';
+import userRouter from '../router/userRouter.js';
 import galleryRouter from '../router/galleryRouter.js';
 
 // Імпортуємо функцію runMigrations з модуля migration.js,
@@ -23,15 +23,20 @@ export async function createServer() {
   app.use(cookieParser());
   app.use(express.json());
 
-  // app.use(userController); // Використання роутера у додатку
   app.use(authRouter);
+  app.use(userRouter);
   app.use(galleryRouter);
 
   app.use(function (err, req, res, next) {
+    console.log('errors middleware!!!!')
     if (err.name === 'UnauthorizedError') {
       // res.setHeader('Content-Type', 'text/json');
       res.status(401).json({ message: `Authorization error: ${err.message}` });
     } else {
+      console.error(err);
+      res
+        .status(500)
+        .json({ message: `Internal server error: ${err.message}` });
       next(err);
     }
   });

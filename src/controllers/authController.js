@@ -4,49 +4,49 @@ import {
   loginByCredentials
 } from '../repository/authRepo.js';
 
-const userDetailsController = async (req, res) => {
-  console.log(req.auth);
+const authUserDetailsController = async (req, res, next) => {
   try {
-    const { userDetails } = await getUserDetailsByEmail(req.auth.Email);
+    const userDetails = await getUserDetailsByEmail(req.auth.Email);
+    if (!userDetails) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
     res.status(200).json(userDetails);
   } catch (error) {
-    console.error(error);
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-const loginController = async (req, res) => {
+const loginController = async (req, res, next) => {
   const { userEmail, password } = req.body;
   try {
     const results = await loginByCredentials(userEmail, password);
     if (!results) {
-      res.status(401).end();
-      return;
+      return res.status(401).json({ message: 'Something went wrong' });
     }
+
     res.setHeader('Authorization', results.token);
 
-    res.send({
+    res.json({
       Id: results.user.Id,
       FirstName: results.user.FirstName,
       LastName: results.user.LastName,
       Email: results.user.Email
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-const changePasswordController = async (req, res) => {
+const changePasswordController = async (req, res, next) => {
   const { newPassword, userEmail } = req.body;
 
   try {
     await changePassword(userEmail, newPassword);
-    res.send({ message: 'Password changed' });
+    res.json({ message: 'Password was changed' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json(`Internal server error: ${error.message}`);
+    next(error);
   }
 };
 
-export { userDetailsController, loginController, changePasswordController };
+export { authUserDetailsController, loginController, changePasswordController };

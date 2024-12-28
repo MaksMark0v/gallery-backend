@@ -1,11 +1,8 @@
-// Імпорт бібліотеки express-jwt для роботи з JWT (JSON Web Tokens)
 import { expressjwt } from 'express-jwt';
 
-// Імпорт бібліотеки dotenv для роботи з змінними середовища
 import dotenv from 'dotenv';
 import { getUserId } from '../repository/authRepo.js';
 
-// Завантаження змінних середовища з файлу .env
 dotenv.config();
 
 // Створення middleware для аутентифікації за допомогою JWT
@@ -60,9 +57,7 @@ const jwtAuth = [
       if (error.message === 'User not found')
         res.status(401).json({ message: 'Unauthorized: User not found' });
 
-      res
-        .status(500)
-        .json({ message: `Internal server error: ${error.message}` });
+      next(error);
     }
   }
 ];
