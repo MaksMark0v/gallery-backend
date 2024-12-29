@@ -8,18 +8,21 @@ import {
   updateGalleryController
 } from '../controllers/galleryController.js';
 import jwtAuth from '../middleware/authMiddleware.js';
+import { checkSchema } from 'express-validator';
+import { gallerySchema } from '../validationSchemas/gallerySchema.js';
+import bodyValidate from '../middleware/bodyValidationMiddleware.js';
 
 router
   .route('/galleries')
   .all(jwtAuth)
   .get(getAllGalleryController)
-  .post(createGalleryController);
+  .post(checkSchema(gallerySchema), bodyValidate, createGalleryController);
 
 router
-  .route('/user/:userId/galleries/:galleryId')
+  .route('/galleries/:galleryId')
   .all(jwtAuth)
   .get(getGalleryController)
-  .put(updateGalleryController)
+  .put(checkSchema(gallerySchema), bodyValidate, updateGalleryController)
   .delete(deleteGalleryController);
 
 export default router;

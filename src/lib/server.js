@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-pa
 import authRouter from '../router/authRouter.js';
 import userRouter from '../router/userRouter.js';
 import galleryRouter from '../router/galleryRouter.js';
+import picturesRouter from '../router/picturesRouter.js';
 
 // Імпортуємо функцію runMigrations з модуля migration.js,
 // яка, ймовірно, відповідає за виконання міграцій бази даних.
@@ -26,9 +27,9 @@ export async function createServer() {
   app.use(authRouter);
   app.use(userRouter);
   app.use(galleryRouter);
+  app.use(picturesRouter);
 
   app.use(function (err, req, res, next) {
-    console.log('errors middleware!!!!')
     if (err.name === 'UnauthorizedError') {
       // res.setHeader('Content-Type', 'text/json');
       res.status(401).json({ message: `Authorization error: ${err.message}` });

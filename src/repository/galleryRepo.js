@@ -10,7 +10,6 @@ export async function addGallery(galleryData, userId) {
 
     return newGallery.Id;
   } catch (error) {
-    console.error('Error creating gallery:', error);
     throw new Error('Failed to create gallery');
   }
 }
@@ -33,7 +32,8 @@ export async function getGalleryData(
 
   const include = [
     {
-      association: 'Pictures'
+      association: 'Pictures',
+      attributes: ['Id', 'Name', 'URL', 'Description']
     }
   ];
 
@@ -69,14 +69,10 @@ export async function getGalleryDetails(userId, galleryId) {
     ]
   });
 
-  if (!gallery) {
-    throw new Error('Gallery not found');
-  }
-
   return gallery;
 }
 
-export async function updateGallery(userId, galleryData, galleryId) {
+export async function updateGallery(galleryData, userId, galleryId) {
   const gallery = await Gallery.findOne({
     where: {
       UserId: userId,
@@ -86,7 +82,7 @@ export async function updateGallery(userId, galleryData, galleryId) {
   });
 
   if (!gallery) {
-    throw new Error('Gallery not found');
+    return null;
   }
 
   Object.assign(gallery, galleryData);
@@ -112,4 +108,18 @@ export async function deleteGallery(userId, galleryId) {
   await gallery.save();
 
   return gallery.Id;
+}
+
+export async function isGalleryOwner(userId, galleryId) {
+  const gallery = await Gallery.findOne({
+    where: {
+      Id: galleryId,
+      UserId: userId,
+      DeletedAt: { [Op.is]: null }
+    }
+  });
+
+  if (!gallery) return false;
+
+  return true;
 }

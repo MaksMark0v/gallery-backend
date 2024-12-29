@@ -21,9 +21,13 @@ const getGalleryController = async (req, res, next) => {
   const galleryId = req.params.galleryId;
   try {
     if (!galleryId) {
-      return res.status(400).json({ message: 'GalleryId is required' });
+      return res.status(400).json({ message: 'galleryId is required' });
     }
     const galleryDetails = await getGalleryDetails(userId, galleryId);
+    if (!galleryDetails)
+      return res.status(404).json({
+        message: `Gallery ${galleryId} not found`
+      });
     res.json(galleryDetails);
   } catch (error) {
     next(error);
@@ -50,9 +54,14 @@ const updateGalleryController = async (req, res, next) => {
   const galleryId = req.params.galleryId;
   try {
     if (!galleryId) {
-      return res.status(400).json({ message: 'GalleryId is required' });
+      return res.status(400).json({ message: 'galleryId is required' });
     }
     const Id = await updateGallery(galleryData, userId, galleryId);
+    if (Id === null)
+      return res.status(404).json({
+        message: `Gallery ${galleryId} not found`
+      });
+
     res.json({ Id });
   } catch (error) {
     next(error);
@@ -68,9 +77,10 @@ const deleteGalleryController = async (req, res, next) => {
       return res.status(400).json({ message: 'GalleryId is required' });
     }
     const Id = await deleteGallery(userId, galleryId);
-    if (!Id) {
-      res.status(404).json({ message: 'Gallery not found' });
-    }
+    if (Id === null)
+      return res.status(404).json({
+        message: `Gallery ${galleryId} not found`
+      });
     res.status(204).end();
   } catch (error) {
     next(error);
