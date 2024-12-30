@@ -5,6 +5,11 @@ export const pictureSchema = {
       errorMessage: 'Name must be not empty'
     }
   },
-  URL: { trim: true },
+  URL: {
+    trim: true,
+    isURL: {
+      errorMessage: 'URL is not valid'
+    }
+  },
   Description: { trim: true }
 };
