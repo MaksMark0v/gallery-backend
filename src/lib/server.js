@@ -23,11 +23,22 @@ export async function createServer(){
   const app = express(); // Створення екземпляру Express
   
   app.use(cookieParser());
+  app.use(express.json()); // Використання middleware для роботи з JSON
   
   app.use(userController); // Використання роутера у додатку
   app.use(galleryController);
   app.use(pictureController);
   app.use(authController); // Використання роутера для авторизаці��
+
+  // Відловлює помилки авторизаці�� та віддає повідомлення про помилку
+  app.use(function (err, req, res, next) {
+    if (err.name === "UnauthorizedError") {
+      res.setHeader('Content-Type', 'text/json');
+      res.status(401).send({ message: `Authorization error: ${err.message}` });
+    } else {
+      next(err);
+    }
+  });
 
   app.disable('x-powered-by'); // Вимкнення заголовка 'x-powered-by' для підвищення безпеки
   app.use(
