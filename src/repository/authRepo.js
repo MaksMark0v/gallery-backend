@@ -7,7 +7,7 @@ import generateJwt from '../helpers/generateJWT.js'; // Імпорт функц�
 export async function loginByCredentials(Email, Password) {
     const user = await User.findOne({
         where: { Email },
-        attributes: ['Id', 'Email', 'PasswordHash', 'PasswordSalt'] // Вибір всіх необхідних полів користувача
+        attributes: ['Id', 'FirstName', 'LastName', 'Email', 'PasswordHash', 'PasswordSalt'] // Вибір всіх необхідних полів користувача
     });
     const isValidUser = comparePasswords(Password, user.PasswordHash, user.PasswordSalt);
     if (!isValidUser) {

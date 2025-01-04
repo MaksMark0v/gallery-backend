@@ -1,12 +1,12 @@
 import express from 'express';
-import jwt from '../middleware/authMiddleware.js';
+import jwtAuth from '../middleware/authMiddleware.js';
 import bodyParser from 'body-parser';
 import { addGallery, getGalleryData, getGalleryDetails, updateGallery, deleteGallery } from '../repository/galleryRepo.js';
 
 const router = express.Router();
 
 // Маршрут для отримання всіх галерей користувача
-router.get('/user/:userId/galleries', jwt, async (req, res) => {
+router.get('/user/:userId/galleries', jwtAuth, async (req, res) => {
     try {
         const userId = req.params.userId;
         if (!userId) {
@@ -21,7 +21,7 @@ router.get('/user/:userId/galleries', jwt, async (req, res) => {
 });
 
 // Маршрут для отримання галереї користувача за ID
-router.get('/user/:userId/galleries/:galleryId', jwt, async (req, res) => {
+router.get('/user/:userId/galleries/:galleryId', jwtAuth, async (req, res) => {
     const userId = req.params.userId;
     const galleryId = req.params.galleryId;
     try {
@@ -36,7 +36,7 @@ router.get('/user/:userId/galleries/:galleryId', jwt, async (req, res) => {
 });
 
 // Маршрут для створення нової галереї користувача
-router.post('/user/:userId/galleries', bodyParser.json(), jwt, async (req, res) => {
+router.post('/user/:userId/galleries', bodyParser.json(), jwtAuth, async (req, res) => {
     const newGallery = req.body;
     const userId = req.params.userId;
     try {
@@ -54,7 +54,7 @@ router.post('/user/:userId/galleries', bodyParser.json(), jwt, async (req, res) 
 });
 
 // Маршрут для оновлення галереї користувача за ID
-router.put('/user/:userId/galleries/:galleryId', bodyParser.json(), jwt, async (req, res) => {
+router.put('/user/:userId/galleries/:galleryId', bodyParser.json(), jwtAuth, async (req, res) => {
     const galleryData = req.body;
     const userId = req.params.userId;
     const galleryId = req.params.galleryId;
@@ -70,7 +70,7 @@ router.put('/user/:userId/galleries/:galleryId', bodyParser.json(), jwt, async (
 });
 
 // Маршрут для видалення галереї користувача за ID
-router.delete('/user/:userId/galleries/:galleryId', jwt, async (req, res) => {
+router.delete('/user/:userId/galleries/:galleryId', jwtAuth, async (req, res) => {
     const userId = req.params.userId;
     const galleryId = req.params.galleryId;
     try {

@@ -1,11 +1,11 @@
 import express from 'express';
-import jwt from '../middleware/authMiddleware.js';
+import jwtAuth from '../middleware/authMiddleware.js';
 import bodyParser from 'body-parser';
 import { addPicture,getPictureData, getPictureDetails, updatePicture, deletePicture } from '../repository/pictureRepo.js';
 
 const router = express.Router();
 
-router.get('/user/:userId/galleries/:galleryId/pictures', jwt, async (req, res) => {
+router.get('/user/:userId/galleries/:galleryId/pictures', jwtAuth, async (req, res) => {
     try {
         const galleryId = req.params.galleryId;
         if (!galleryId) {
@@ -19,7 +19,7 @@ router.get('/user/:userId/galleries/:galleryId/pictures', jwt, async (req, res) 
     }
 });
 
-router.get('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwt, async (req, res) => {
+router.get('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth, async (req, res) => {
     const galleryId = req.params.galleryId;
     const pictureId = req.params.pictureId;
     try {
@@ -33,7 +33,7 @@ router.get('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwt, async 
     }
 });
 
-router.post('/user/:userId/galleries/:galleryId/pictures', jwt, bodyParser.json(), jwt, async (req, res) => {
+router.post('/user/:userId/galleries/:galleryId/pictures', jwtAuth, bodyParser.json(), async (req, res) => {
     const newPicture = req.body;
     const galleryId = req.params.galleryId;
     try {
@@ -50,7 +50,7 @@ router.post('/user/:userId/galleries/:galleryId/pictures', jwt, bodyParser.json(
     }
 });
 
-router.put('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwt, bodyParser.json(), async (req, res) => {
+router.put('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth, bodyParser.json(), async (req, res) => {
     const pictureData = req.body;
     const galleryId = req.params.galleryId;
     const pictureId = req.params.pictureId;
@@ -66,7 +66,7 @@ router.put('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwt, bodyPa
     }
 });
 
-router.delete('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwt, async (req, res) => {
+router.delete('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth, async (req, res) => {
     const galleryId = req.params.galleryId;
     const pictureId = req.params.pictureId;
     try {
