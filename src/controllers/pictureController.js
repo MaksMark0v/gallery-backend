@@ -1,7 +1,7 @@
 import express from 'express';
 import jwtAuth from '../middleware/authMiddleware.js';
 import bodyParser from 'body-parser';
-import { addPicture,getPictureData, getPictureDetails, updatePicture, deletePicture } from '../repository/pictureRepo.js';
+import { addPicture, getPictureData, getPictureDetails, updatePicture, deletePicture } from '../repository/pictureRepo.js';
 
 const router = express.Router();
 
@@ -9,9 +9,9 @@ router.get('/user/:userId/galleries/:galleryId/pictures', jwtAuth, async (req, r
     try {
         const galleryId = req.params.galleryId;
         if (!galleryId) {
-            return res.status(400).send({ message: 'Invalid  gallery id' });
+            return res.status(400).send({ message: 'Invalid gallery id' });
         }
-        const pictureData = await getPictureData( galleryId, req.query);
+        const pictureData = await getPictureData(galleryId, req.query);
         res.send(pictureData);
     } catch (error) {
         console.error(error);
@@ -26,7 +26,7 @@ router.get('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth, as
         if (!galleryId || !pictureId) {
             return res.status(400).send({ message: 'Invalid user, gallery, or picture id' });
         }
-        const pictureDetails = await getPictureDetails( galleryId, pictureId);
+        const pictureDetails = await getPictureDetails(galleryId, pictureId);
         res.send(pictureDetails);
     } catch (error) {
         res.status(500).send(`Internal server error: ${error.message}`);
@@ -56,11 +56,10 @@ router.put('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth, bo
     const pictureId = req.params.pictureId;
     try {
         if (!galleryId || !pictureId) {
-            return res.status(400).send('Invalid  gallery or picture id');
+            return res.status(400).send('Invalid gallery or picture id');
         }
         const Id = await updatePicture(pictureData, galleryId, pictureId);
         res.send({ Id });
-
     } catch (error) {
         res.status(500).send(`Internal server error: ${error.message}`);
     }
@@ -70,10 +69,10 @@ router.delete('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth,
     const galleryId = req.params.galleryId;
     const pictureId = req.params.pictureId;
     try {
-        if ( !galleryId || !pictureId) {
-            return res.status(400).send('Invalid  gallery or picture id');
+        if (!galleryId || !pictureId) {
+            return res.status(400).send('Invalid gallery or picture id');
         }
-        const Id = await deletePicture( galleryId, pictureId);
+        const Id = await deletePicture(galleryId, pictureId);
         if (Id) {
             res.status(404).send(`Picture deleted ${Id}`);
         }
@@ -81,5 +80,5 @@ router.delete('/user/:userId/galleries/:galleryId/pictures/:pictureId', jwtAuth,
     } catch (error) {
         res.status(500).send(`Internal server error: ${error.message}`);
     }
-})
+});
 export default router;
