@@ -1,12 +1,14 @@
 import bodyParser from 'body-parser'; // Імпорт модуля body-parser для парсингу JSON-запитів
-
+import jwtAuth  from '../middleware/authMiddleware.js'; // Імпорт middleware для аутентифікації користувача
 import router from '../router/index.js'; // Імпорт роутера для налаштування маршрутів
-import { changePassword, loginByCredentials } from '../repository/authRepo.js'; // Імпорт функції для зміни пароля з репозиторію аутентифікації
+import { changePassword, loginByCredentials, getUserDetailsByEmail  } from '../repository/authRepo.js'; // Імпорт функції для зміни пароля з репозиторію аутентифікації
 
 // Маршрут для перевірки аутентифікації
-router.get('/auth', async (req, res) => {
+router.get('/auth', jwtAuth,async (req, res) => {
     try {
         res.status(204).end(); // Відправка відповіді з статусом 204 (No Content)
+        const { userDetails } = await getUserDetailsByEmail(req.auth.Email);
+        res.status(200).send(userDetails);
     } catch (error) {
         console.error(error); // Логування помилки
         res.status(500).send(`Internal server error: ${error.message}`); // Відправка відповіді з статусом 500 у разі помилки
