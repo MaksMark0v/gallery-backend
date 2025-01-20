@@ -31,7 +31,6 @@ export async function createServer() {
 
   app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
-      // res.setHeader('Content-Type', 'text/json');
       res.status(401).json({ message: `Authorization error: ${err.message}` });
     } else {
       console.error(err);

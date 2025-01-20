@@ -4,7 +4,7 @@ import {
   loginByCredentials
 } from '../repository/authRepo.js';
 
-const authUserDetailsController = async (req, res, next) => {
+const authUserDetailsController = async (req, res, next) => {  
   try {
     const userDetails = await getUserDetailsByEmail(req.auth.Email);
     if (!userDetails) {
