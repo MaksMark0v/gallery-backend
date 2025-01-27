@@ -25,7 +25,7 @@ const loginController = async (req, res, next) => {
       return res.status(401).json({ message: 'Something went wrong' });
     }
 
-    res.setHeader('Authorization', results.token);
+    res.setHeader('Authorization' , results.token);
 
     res.json({
       Id: results.user.Id,
