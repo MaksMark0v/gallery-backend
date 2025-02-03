@@ -1,6 +1,7 @@
 import express from 'express'; // Імпорт фреймворку Express для створення веб-серверу
 import helmet from 'helmet'; // Імпорт модуля helmet для підвищення безпеки додатку
 import cookieParser from 'cookie-parser'; // Імпорт модуля cookie-parser для роботи з кукі
+import cors from 'cors'; // Імпорт модуля cors для обробки запитів CORS
 
 import authRouter from '../router/authRouter.js';
 import userRouter from '../router/userRouter.js';
@@ -23,6 +24,11 @@ export async function createServer() {
 
   app.use(cookieParser());
   app.use(express.json());
+
+  const corsOptions = {
+    exposedHeaders: 'Authorization'
+  };
+  app.use(cors(corsOptions));
 
   app.use(authRouter);
   app.use(userRouter);
