@@ -1,9 +1,11 @@
 import { DataTypes } from "sequelize";
 
 export async function up(queryInterface) {
+  console.log(1, 'Add column Description to Galleries');
    queryInterface.addColumn('Galleries', 'Description', {
     type: DataTypes.TEXT,
-    allowNull: true
+    allowNull: true,
+    comment: 'Gallery description'
   });
 }
 
