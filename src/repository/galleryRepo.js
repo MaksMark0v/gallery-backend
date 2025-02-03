@@ -23,7 +23,7 @@ export async function getGalleryData(
       UserId: userId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId']
+    attributes: ['Id', 'Name', 'UserId', 'UpdatedAt', 'Description']
   };
 
   if (filter.Name) {
