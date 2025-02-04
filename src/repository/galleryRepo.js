@@ -23,7 +23,7 @@ export async function getGalleryData(
       UserId: userId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId']
+    attributes: ['Id', 'Name', 'UserId', 'Description']
   };
 
   if (filter.Name) {
@@ -59,7 +59,7 @@ export async function getGalleryDetails(userId, galleryId) {
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId'],
+    attributes: ['Id', 'Name', 'UserId', 'Description'],
 
     include: [
       {
