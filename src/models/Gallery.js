@@ -24,6 +24,10 @@ const model = Gallery.init({
         type: DataTypes.STRING(255), // Тип даних: рядок до 255 символів
         allowNull: false // Поле не може бути null
     },
+    Description: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
     CreatedAt: {
         type: DataTypes.DATE, // Тип даних: дата
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), // Значення за замовчуванням - поточний час

@@ -33,7 +33,7 @@ export async function getGalleryData(
   const include = [
     {
       association: 'Pictures',
-      attributes: ['Id', 'Name', 'URL', 'Description']
+      attributes: ['Id']
     }
   ];
 
