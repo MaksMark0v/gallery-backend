@@ -1,5 +1,6 @@
 import Gallery from '../models/Gallery.js';
-import { Op } from 'sequelize';
+
+import Sequelize, { Op } from 'sequelize';
 
 export async function addGallery(galleryData, userId) {
   try {
@@ -23,32 +24,36 @@ export async function getGalleryData(
       UserId: userId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId', 'UpdatedAt', 'Description']
+    attributes: [
+      'Id',
+      'Name',
+      'UserId',
+      'UpdatedAt',
+      'Description',
+      [Sequelize.fn('COUNT', Sequelize.col('Pictures.Id')), 'TotalPictures']
+    ],
+    include: [
+      {
+        association: 'Pictures',
+        attributes: [],
+        duplicating: false
+      }
+    ],
+    group: ['Gallery.Id'],
+    offset: (page - 1) * size,
+    limit: +size
   };
 
   if (filter.Name) {
     params.where.Name = { [Op.like]: `%${filter.Name}%` };
   }
 
-  const include = [
-    {
-      association: 'Pictures',
-      attributes: ['Id']
-    }
-  ];
-
-  const Data = await Gallery.findAll({
-    ...params,
-    include,
-    offset: (page - 1) * size,
-    limit: +size
-  });
-  const Count = await Gallery.count(params);
+  const result = await Gallery.findAndCountAll(params);
 
   return {
-    Data,
-    Count,
-    CountPages: Math.ceil(Count / size || 1)
+    Data: result.rows,
+    Count: result.count.length,
+    CountPages: Math.ceil(result.count.length / size || 1)
   };
 }
 
