@@ -1,4 +1,4 @@
-import Sequelize, { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
 // Імпорт бази даних
 import db from '../lib/db.js';
@@ -31,13 +31,14 @@ const model = Gallery.init(
     },
     CreatedAt: {
       type: DataTypes.DATE, // Тип даних: дата
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), // Значення за замовчуванням - поточний час
+      defaultValue: DataTypes.NOW, // Значення за замовчуванням - поточний час
       allowNull: false // Поле не може бути null
     },
     UpdatedAt: {
       type: DataTypes.DATE, // Тип даних: дата
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), // Значення за замовчуванням - поточний час
-      allowNull: false // Поле не може бути null
+      defaultValue: DataTypes.NOW, // Значення за замовчуванням - поточний час
+      allowNull: false, // Поле не може бути null
+      onUpdate: DataTypes.NOW
     },
     DeletedAt: {
       type: DataTypes.DATE, // Тип даних: дата

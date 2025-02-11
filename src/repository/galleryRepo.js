@@ -9,7 +9,7 @@ export async function addGallery(galleryData, userId) {
       UserId: userId
     });
 
-    return newGallery.Id;
+    return { ...newGallery.toJSON(), TotalPictures: 0 };
   } catch (error) {
     throw new Error('Failed to create gallery');
   }
@@ -91,9 +91,11 @@ export async function updateGallery(galleryData, userId, galleryId) {
   }
 
   Object.assign(gallery, galleryData);
-  await gallery.save();
+  gallery.set('UpdatedAt', new Date());
 
-  return gallery.Id;
+  const result = await gallery.save();
+
+  return result;
 }
 
 export async function deleteGallery(userId, galleryId) {

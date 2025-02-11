@@ -41,8 +41,8 @@ const createGalleryController = async (req, res, next) => {
     if (!newGallery.Name) {
       return res.status(400).json({ message: 'GalleryName is required' });
     }
-    const Id = await addGallery(newGallery, userId);
-    res.send({ Id });
+    const gallery = await addGallery(newGallery, userId);
+    res.json(gallery);
   } catch (error) {
     next(error);
   }
@@ -56,13 +56,13 @@ const updateGalleryController = async (req, res, next) => {
     if (!galleryId) {
       return res.status(400).json({ message: 'galleryId is required' });
     }
-    const Id = await updateGallery(galleryData, userId, galleryId);
-    if (Id === null)
+    const gallery = await updateGallery(galleryData, userId, galleryId);
+    if (gallery === null)
       return res.status(404).json({
         message: `Gallery ${galleryId} not found`
       });
 
-    res.json({ Id });
+    res.json(gallery);
   } catch (error) {
     next(error);
   }
