@@ -3,7 +3,7 @@ import router from './index.js';
 import {
   createGalleryController,
   deleteGalleryController,
-  getAllGalleryController,
+  getAllGalleriesController,
   getGalleryController,
   updateGalleryController
 } from '../controllers/galleryController.js';
@@ -15,7 +15,7 @@ import bodyValidate from '../middleware/bodyValidationMiddleware.js';
 router
   .route('/galleries')
   .all(jwtAuth)
-  .get(getAllGalleryController)
+  .get(getAllGalleriesController)
   .post(checkSchema(gallerySchema), bodyValidate, createGalleryController);
 
 router

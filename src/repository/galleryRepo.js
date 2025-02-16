@@ -4,18 +4,18 @@ import Sequelize, { Op } from 'sequelize';
 
 export async function addGallery(galleryData, userId) {
   try {
-    const newGallery = await Gallery.create({
+    const { Id } = await Gallery.create({
       ...galleryData,
       UserId: userId
     });
 
-    return { ...newGallery.toJSON(), TotalPictures: 0 };
+    return { Id };
   } catch (error) {
     throw new Error('Failed to create gallery');
   }
 }
 
-export async function getGalleryData(
+export async function getAllGalleries(
   userId,
   { page = 1, size = 10, filter = {} }
 ) {
@@ -91,11 +91,9 @@ export async function updateGallery(galleryData, userId, galleryId) {
   }
 
   Object.assign(gallery, galleryData);
-  gallery.set('UpdatedAt', new Date());
-
-  const result = await gallery.save();
-
-  return result;
+  gallery.UpdatedAt = new Date();
+  const { Id } = await gallery.save();
+  return { Id };
 }
 
 export async function deleteGallery(userId, galleryId) {
@@ -112,9 +110,8 @@ export async function deleteGallery(userId, galleryId) {
   }
 
   gallery.DeletedAt = new Date();
-  await gallery.save();
-
-  return gallery.Id;
+  const { Id } = await gallery.save();
+  return { Id };
 }
 
 export async function isGalleryOwner(userId, galleryId) {
