@@ -1,20 +1,21 @@
 import Gallery from '../models/Gallery.js';
-import { Op } from 'sequelize';
+
+import Sequelize, { Op } from 'sequelize';
 
 export async function addGallery(galleryData, userId) {
   try {
-    const newGallery = await Gallery.create({
+    const { Id } = await Gallery.create({
       ...galleryData,
       UserId: userId
     });
 
-    return newGallery.Id;
+    return { Id };
   } catch (error) {
     throw new Error('Failed to create gallery');
   }
 }
 
-export async function getGalleryData(
+export async function getAllGalleries(
   userId,
   { page = 1, size = 10, filter = {} }
 ) {
@@ -23,32 +24,36 @@ export async function getGalleryData(
       UserId: userId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId', 'UpdatedAt', 'Description']
+    attributes: [
+      'Id',
+      'Name',
+      'UserId',
+      'UpdatedAt',
+      'Description',
+      [Sequelize.fn('COUNT', Sequelize.col('Pictures.Id')), 'TotalPictures']
+    ],
+    include: [
+      {
+        association: 'Pictures',
+        attributes: [],
+        duplicating: false
+      }
+    ],
+    group: ['Gallery.Id'],
+    offset: (page - 1) * size,
+    limit: +size
   };
 
   if (filter.Name) {
     params.where.Name = { [Op.like]: `%${filter.Name}%` };
   }
 
-  const include = [
-    {
-      association: 'Pictures',
-      attributes: ['Id', 'Name', 'URL', 'Description']
-    }
-  ];
-
-  const Data = await Gallery.findAll({
-    ...params,
-    include,
-    offset: (page - 1) * size,
-    limit: +size
-  });
-  const Count = await Gallery.count(params);
+  const result = await Gallery.findAndCountAll(params);
 
   return {
-    Data,
-    Count,
-    CountPages: Math.ceil(Count / size || 1)
+    Data: result.rows,
+    Count: result.count.length,
+    CountPages: Math.ceil(result.count.length / size || 1)
   };
 }
 
@@ -59,7 +64,7 @@ export async function getGalleryDetails(userId, galleryId) {
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId', 'Description', 'UpdatedAt'],
+    attributes: ['Id', 'Name', 'UserId'],
 
     include: [
       {
@@ -86,9 +91,9 @@ export async function updateGallery(galleryData, userId, galleryId) {
   }
 
   Object.assign(gallery, galleryData);
-  await gallery.save();
-
-  return gallery.Id;
+  gallery.UpdatedAt = new Date();
+  const { Id } = await gallery.save();
+  return { Id };
 }
 
 export async function deleteGallery(userId, galleryId) {
@@ -105,9 +110,8 @@ export async function deleteGallery(userId, galleryId) {
   }
 
   gallery.DeletedAt = new Date();
-  await gallery.save();
-
-  return gallery.Id;
+  const { Id } = await gallery.save();
+  return { Id };
 }
 
 export async function isGalleryOwner(userId, galleryId) {

@@ -1,15 +1,15 @@
 import {
   addGallery,
   deleteGallery,
-  getGalleryData,
+  getAllGalleries,
   getGalleryDetails,
   updateGallery
 } from '../repository/galleryRepo.js';
 
-const getAllGalleryController = async (req, res, next) => {
+const getAllGalleriesController = async (req, res, next) => {
   try {
     const userId = req.auth.userId;
-    const galleryData = await getGalleryData(userId, req.query);
+    const galleryData = await getAllGalleries(userId, req.query);
     res.json(galleryData);
   } catch (error) {
     next(error);
@@ -41,8 +41,8 @@ const createGalleryController = async (req, res, next) => {
     if (!newGallery.Name) {
       return res.status(400).json({ message: 'GalleryName is required' });
     }
-    const Id = await addGallery(newGallery, userId);
-    res.send({ Id });
+    const createdGallery = await addGallery(newGallery, userId);
+    res.json(createdGallery);
   } catch (error) {
     next(error);
   }
@@ -56,13 +56,13 @@ const updateGalleryController = async (req, res, next) => {
     if (!galleryId) {
       return res.status(400).json({ message: 'galleryId is required' });
     }
-    const Id = await updateGallery(galleryData, userId, galleryId);
-    if (Id === null)
+    const updatedGallery = await updateGallery(galleryData, userId, galleryId);
+    if (updatedGallery === null)
       return res.status(404).json({
         message: `Gallery ${galleryId} not found`
       });
 
-    res.json({ Id });
+    res.json(updatedGallery);
   } catch (error) {
     next(error);
   }
@@ -76,8 +76,8 @@ const deleteGalleryController = async (req, res, next) => {
     if (!galleryId) {
       return res.status(400).json({ message: 'GalleryId is required' });
     }
-    const Id = await deleteGallery(userId, galleryId);
-    if (Id === null)
+    const deletedGallery = await deleteGallery(userId, galleryId);
+    if (deletedGallery === null)
       return res.status(404).json({
         message: `Gallery ${galleryId} not found`
       });
@@ -88,7 +88,7 @@ const deleteGalleryController = async (req, res, next) => {
 };
 
 export {
-  getAllGalleryController,
+  getAllGalleriesController,
   getGalleryController,
   createGalleryController,
   updateGalleryController,
