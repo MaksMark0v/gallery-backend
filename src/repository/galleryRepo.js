@@ -64,7 +64,7 @@ export async function getGalleryDetails(userId, galleryId) {
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId'],
+    attributes: ['Id', 'Name', 'UserId', 'Description', 'UpdatedAt'],
 
     include: [
       {
