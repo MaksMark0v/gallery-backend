@@ -39,6 +39,7 @@ export async function getAllGalleries(
         duplicating: false
       }
     ],
+    order: [['UpdatedAt', 'DESC']],
     group: ['Gallery.Id'],
     offset: (page - 1) * size,
     limit: +size
