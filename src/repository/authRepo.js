@@ -62,9 +62,9 @@ function comparePasswords(Password, Hash, Salt) {
   return Hash === newHash;
 }
 
-function hashPassword(Password) {
+export function hashPassword(Password) {
   const salt = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
-
+  console.log(1, Password)
   const hash = CryptoJS.PBKDF2(Password, salt, {
     keySize: 64 / 4,
     iterations: 100,

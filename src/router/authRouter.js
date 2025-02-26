@@ -11,6 +11,7 @@ import {
   changePasswordSchema
 } from '../validationSchemas/loginSchema.js';
 import bodyValidate from '../middleware/bodyValidationMiddleware.js';
+import { createUserController } from '../controllers/userController.js';
 
 router.get('/auth', jwtAuth, authUserDetailsController);
 
@@ -22,5 +23,8 @@ router.post(
   bodyValidate,
   changePasswordController
 );
+router
+  .route('/signup')
+  .post(createUserController);
 
 export default router;
