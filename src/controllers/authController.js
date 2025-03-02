@@ -39,10 +39,10 @@ const loginController = async (req, res, next) => {
 };
 
 const changePasswordController = async (req, res, next) => {
-  const { newPassword, userEmail } = req.body;
+  const { newPassword, Email } = req.body;
 
   try {
-    await changePassword(userEmail, newPassword);
+    await changePassword(Email, newPassword);
     res.json({ message: 'Password was changed' });
   } catch (error) {
     next(error);

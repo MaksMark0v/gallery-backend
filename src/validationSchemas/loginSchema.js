@@ -2,9 +2,9 @@ export const loginSchema = {
   userEmail: {
     trim: true,
     normalizeEmail: true,
-    isEmail: {
-      errorMessage: 'Must be a valid e-mail address'
-    },
+    // isEmail: {
+    //   errorMessage: 'Must be a valid e-mail address'
+    // },
     notEmpty: {
       errorMessage: 'E-mail must be not empty'
     }
