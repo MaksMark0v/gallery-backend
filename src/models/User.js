@@ -34,6 +34,11 @@ const model = User.init({
         allowNull: false,
         unique: true
     },
+    AvatarUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: 'URL to user avatar image'
+    },
     PasswordHash: {
         type: DataTypes.STRING,
         allowNull: false

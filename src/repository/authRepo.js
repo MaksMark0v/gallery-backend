@@ -36,6 +36,8 @@ export async function loginByCredentials(Email, Password) {
 }
 
 export async function changePassword(Email, Password) {
+  console.log(1, Email, Password)
+
   const user = await User.findOne({
     where: { Email },
     attributes: ['Id', 'Email']
@@ -61,9 +63,8 @@ function comparePasswords(Password, Hash, Salt) {
   return Hash === newHash;
 }
 
-function hashPassword(Password) {
+export function hashPassword(Password) {
   const salt = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
-
   const hash = CryptoJS.PBKDF2(Password, salt, {
     keySize: 64 / 4,
     iterations: 100,
