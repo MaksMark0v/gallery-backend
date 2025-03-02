@@ -62,19 +62,22 @@ export async function getUserDetails(userId) {
       'MiddleName',
       'LastName',
       'Email',
-      'Status'
-    ],
-    include: [
-      {
-        model: Gallery,
-        include: [
-          {
-            association: 'Pictures'
-          }
-        ]
-      }
+      'Status',
+      'AvatarUrl'
     ]
+    // include: [
+    //   {
+    //     model: Gallery,
+    //     include: [
+    //       {
+    //         association: 'Pictures'
+    //       }
+    //     ]
+    //   }
+    // ]
   });
+
+  console.log(user);
 
   return user;
 }
@@ -89,6 +92,8 @@ export async function saveUser(userData, userId) {
   const defaultPasswordSalt = 'defaultSaltValue';
 
   // ----------------------------------------------------------------
+  console.log('user ID ', userId);
+
   if (userId) {
     userObject = await User.findOne({ where: { Id: userId } });
     if (!userObject) {

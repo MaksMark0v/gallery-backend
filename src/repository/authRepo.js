@@ -17,7 +17,6 @@ export async function loginByCredentials(Email, Password) {
   });
 
   if (!user) {
-    // throw new Error('Something went wrong');
     return;
   }
 
