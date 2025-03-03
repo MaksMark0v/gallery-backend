@@ -16,7 +16,7 @@ const UsersDataController = async (req, res, next) => {
 
 const userDetailsController = async (req, res, next) => {
   try {
-    const { userDetails } = await getUserDetails(req.params.id);
+    const userDetails = await getUserDetails(req.params.id);
 
     res.status(200).json(userDetails);
   } catch (error) {

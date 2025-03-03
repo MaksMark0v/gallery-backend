@@ -36,8 +36,6 @@ export async function loginByCredentials(Email, Password) {
 }
 
 export async function changePassword(Email, Password) {
-  console.log(1, Email, Password)
-
   const user = await User.findOne({
     where: { Email },
     attributes: ['Id', 'Email']

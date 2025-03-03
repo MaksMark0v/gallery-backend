@@ -51,7 +51,7 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
 }
 
 export async function getUserDetails(userId) {
-  const user = await User.findOne({
+  const userDetails = await User.findOne({
     where: {
       Id: userId,
       DeletedAt: { [Op.is]: null }
@@ -65,21 +65,9 @@ export async function getUserDetails(userId) {
       'Status',
       'AvatarUrl'
     ]
-    // include: [
-    //   {
-    //     model: Gallery,
-    //     include: [
-    //       {
-    //         association: 'Pictures'
-    //       }
-    //     ]
-    //   }
-    // ]
   });
 
-  console.log(user);
-
-  return user;
+  return userDetails;
 }
 
 export async function saveUser(userData, userId) {
@@ -91,7 +79,6 @@ export async function saveUser(userData, userId) {
       throw new Error('User not found!');
     }
   } else {
-    console.log(2, userData);
     const { hash, salt } = hashPassword(userData.Password);
     userObject = new User({
       IsAdmin: 0,
@@ -106,6 +93,7 @@ export async function saveUser(userData, userId) {
   const data = _.pick(userData, fields);
   Object.assign(userObject, data);
 
+  userObject.UpdatedAt = new Date();
   await userObject.save();
 
   return userObject.Id;
