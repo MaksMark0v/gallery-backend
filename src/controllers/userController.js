@@ -16,7 +16,7 @@ const UsersDataController = async (req, res, next) => {
 
 const userDetailsController = async (req, res, next) => {
   try {
-    const { userDetails } = await getUserDetails(req.auth.userId);
+    const userDetails = await getUserDetails(req.params.id);
 
     res.status(200).json(userDetails);
   } catch (error) {
@@ -37,7 +37,7 @@ const createUserController = async (req, res, next) => {
 const updateUserController = async (req, res, next) => {
   const userData = req.body;
   try {
-    const Id = await saveUser(userData, req.auth.userId);
+    const Id = await saveUser(userData, req.params.id);
 
     res.json({ Id });
   } catch (error) {

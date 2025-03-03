@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 
 import User from '../models/User.js';
 import Gallery from '../models/Gallery.js';
-
+import { hashPassword } from '../repository/authRepo.js';
 export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const params = {
     where: {
@@ -51,7 +51,7 @@ export async function getUsersData({ page = 1, size = 100, filter = {} }) {
 }
 
 export async function getUserDetails(userId) {
-  const user = await User.findOne({
+  const userDetails = await User.findOne({
     where: {
       Id: userId,
       DeletedAt: { [Op.is]: null }
@@ -62,52 +62,38 @@ export async function getUserDetails(userId) {
       'MiddleName',
       'LastName',
       'Email',
-      'Status'
-    ],
-    include: [
-      {
-        model: Gallery,
-        include: [
-          {
-            association: 'Pictures'
-          }
-        ]
-      }
+      'Status',
+      'AvatarUrl'
     ]
   });
 
-  return user;
+  return userDetails;
 }
 
 export async function saveUser(userData, userId) {
   let userObject = {};
 
-  // ----------------------------------------------------------------
-  // Встановлення значень за замовчуванням для обов'язкових полів, якщо вони відсутні
-
-  const defaultPasswordHash = 'defaultHashValue';
-  const defaultPasswordSalt = 'defaultSaltValue';
-
-  // ----------------------------------------------------------------
   if (userId) {
     userObject = await User.findOne({ where: { Id: userId } });
     if (!userObject) {
       throw new Error('User not found!');
     }
   } else {
+    const { hash, salt } = hashPassword(userData.Password);
     userObject = new User({
       IsAdmin: 0,
       Status: 'not_approved',
-      PasswordHash: defaultPasswordHash,
-      PasswordSalt: defaultPasswordSalt
+      PasswordHash: hash,
+      PasswordSalt: salt
     });
   }
 
-  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email'];
+  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email', 'AvatarUrl'];
 
   const data = _.pick(userData, fields);
   Object.assign(userObject, data);
 
+  userObject.UpdatedAt = new Date();
   await userObject.save();
 
   return userObject.Id;
