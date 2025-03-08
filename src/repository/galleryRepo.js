@@ -39,6 +39,7 @@ export async function getAllGalleries(
         duplicating: false
       }
     ],
+    order: [['UpdatedAt', 'DESC']],
     group: ['Gallery.Id'],
     offset: (page - 1) * size,
     limit: +size
@@ -64,7 +65,7 @@ export async function getGalleryDetails(userId, galleryId) {
       Id: galleryId,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: ['Id', 'Name', 'UserId'],
+    attributes: ['Id', 'Name', 'UserId', 'Description', 'UpdatedAt'],
 
     include: [
       {

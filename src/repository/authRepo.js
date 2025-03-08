@@ -17,7 +17,6 @@ export async function loginByCredentials(Email, Password) {
   });
 
   if (!user) {
-    // throw new Error('Something went wrong');
     return;
   }
 
@@ -37,8 +36,6 @@ export async function loginByCredentials(Email, Password) {
 }
 
 export async function changePassword(Email, Password) {
-  console.log(1, Email, Password)
-
   const user = await User.findOne({
     where: { Email },
     attributes: ['Id', 'Email']
