@@ -1,7 +1,7 @@
-import CryptoJS from 'crypto-js';
 import User from '../models/User.js';
-import generateJwt from '../helpers/generateJWT.js';
 import { Op } from 'sequelize';
+import { comparePasswords, hashPassword } from '../helpers/passwordHandlers.js';
+import { generateJwt } from '../helpers/generateJWT.js';
 
 export async function loginByCredentials(Email, Password) {
   const user = await User.findOne({
@@ -42,7 +42,17 @@ export async function changePassword(Email, Password) {
   });
 
   if (!user) {
-    throw new Error('Something went wrong');
+    return undefined;
+  }
+
+  const isValidUser = comparePasswords(
+    Password,
+    user.PasswordHash,
+    user.PasswordSalt
+  );
+
+  if (!isValidUser) {
+    return false;
   }
 
   const { hash, salt } = hashPassword(Password);
@@ -50,26 +60,6 @@ export async function changePassword(Email, Password) {
   user.PasswordSalt = salt;
 
   await user.save();
-}
-
-function comparePasswords(Password, Hash, Salt) {
-  const newHash = CryptoJS.PBKDF2(Password, Salt, {
-    keySize: 64 / 4,
-    iterations: 100,
-    hasher: CryptoJS.algo.SHA512
-  }).toString(CryptoJS.enc.Hex);
-  return Hash === newHash;
-}
-
-export function hashPassword(Password) {
-  const salt = CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
-  const hash = CryptoJS.PBKDF2(Password, salt, {
-    keySize: 64 / 4,
-    iterations: 100,
-    hasher: CryptoJS.algo.SHA512
-  }).toString(CryptoJS.enc.Hex);
-
-  return { hash, salt };
 }
 
 export async function getUserDetailsByEmail(email) {

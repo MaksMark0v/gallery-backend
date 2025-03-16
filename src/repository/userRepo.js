@@ -3,7 +3,8 @@ import { Op } from 'sequelize';
 
 import User from '../models/User.js';
 import Gallery from '../models/Gallery.js';
-import { hashPassword } from '../repository/authRepo.js';
+import { hashPassword } from '../helpers/passwordHandlers.js';
+
 export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const params = {
     where: {

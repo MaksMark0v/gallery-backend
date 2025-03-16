@@ -22,7 +22,6 @@ const loginController = async (req, res, next) => {
   const { userEmail, password } = req.body;
   try {
     const results = await loginByCredentials(userEmail, password);
-    console.log(results);
     if (!results) {
       return res.status(401).json({ message: 'Something went wrong' });
     }
@@ -44,8 +43,18 @@ const changePasswordController = async (req, res, next) => {
   const { newPassword, userEmail } = req.body;
 
   try {
-    await changePassword(userEmail, newPassword);
-    res.json({ message: 'Password was changed' });
+    const results = await changePassword(userEmail, newPassword);
+    switch (results) {
+      case undefined:
+        return res.status(401).json({ message: 'Something went wrong' });
+
+      case false:
+        return res.status(403).json({ message: 'Password was wrong' });
+
+      default:
+        res.json({ message: 'Password was changed' });
+        break;
+    }
   } catch (error) {
     next(error);
   }
