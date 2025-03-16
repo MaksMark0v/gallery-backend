@@ -80,19 +80,26 @@ export async function saveUser(userData, userId) {
     }
   } else {
     const { hash, salt } = hashPassword(userData.Password);
+
     userObject = new User({
       IsAdmin: 0,
-      Status: 'not_approved',
+      Status: 'new',
       PasswordHash: hash,
       PasswordSalt: salt
     });
   }
 
-  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email', 'AvatarUrl'];
+  if (!userData.MiddleName) {
+    userData.MiddleName = null;
+  }
 
+  if (!userData.AvatarUrl) {
+    userData.AvatarUrl = null;
+  }
+
+  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email', 'AvatarUrl'];
   const data = _.pick(userData, fields);
   Object.assign(userObject, data);
-
   userObject.UpdatedAt = new Date();
   await userObject.save();
 

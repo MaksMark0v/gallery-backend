@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 
 export async function loginByCredentials(Email, Password) {
   const user = await User.findOne({
-    where: { Email },
+    where: { Email, DeletedAt: { [Op.is]: null } },
     attributes: [
       'Id',
       'FirstName',

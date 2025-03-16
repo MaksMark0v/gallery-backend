@@ -46,9 +46,10 @@ const updateUserController = async (req, res, next) => {
 };
 
 const deleteUserController = async (req, res, next) => {
-  try {const userId = req.auth.userId;
+  try {
+    const userId = req.auth.userId;
     console.log(1, userId);
-    await deleteUser(userId);    
+    await deleteUser(userId);
     res.status(204).end();
   } catch (error) {
     next(error);
