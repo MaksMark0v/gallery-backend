@@ -12,7 +12,8 @@ export async function loginByCredentials(Email, Password) {
       'LastName',
       'Email',
       'PasswordHash',
-      'PasswordSalt'
+      'PasswordSalt',
+      'AvatarUrl'
     ]
   });
 
@@ -68,17 +69,7 @@ export async function getUserDetailsByEmail(email) {
       Email: email,
       DeletedAt: { [Op.is]: null }
     },
-    attributes: [
-      'Id',
-      'FirstName',
-      'MiddleName',
-      'LastName',
-      'Email',
-      'Status',
-      'IsAdmin',
-      'CreatedAt',
-      'UpdatedAt'
-    ]
+    attributes: ['Id', 'FirstName', 'LastName', 'Email', 'AvatarUrl']
   });
 
   return user;
