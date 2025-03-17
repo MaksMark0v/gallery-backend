@@ -3,7 +3,8 @@ import { Op } from 'sequelize';
 
 import User from '../models/User.js';
 import Gallery from '../models/Gallery.js';
-import { hashPassword } from '../repository/authRepo.js';
+import { hashPassword } from '../helpers/passwordHandlers.js';
+
 export async function getUsersData({ page = 1, size = 100, filter = {} }) {
   const params = {
     where: {
@@ -80,19 +81,26 @@ export async function saveUser(userData, userId) {
     }
   } else {
     const { hash, salt } = hashPassword(userData.Password);
+
     userObject = new User({
       IsAdmin: 0,
-      Status: 'not_approved',
+      Status: 'new',
       PasswordHash: hash,
       PasswordSalt: salt
     });
   }
 
-  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email', 'AvatarUrl'];
+  if (!userData.MiddleName) {
+    userData.MiddleName = null;
+  }
 
+  if (!userData.AvatarUrl) {
+    userData.AvatarUrl = null;
+  }
+
+  const fields = ['FirstName', 'MiddleName', 'LastName', 'Email', 'AvatarUrl'];
   const data = _.pick(userData, fields);
   Object.assign(userObject, data);
-
   userObject.UpdatedAt = new Date();
   await userObject.save();
 

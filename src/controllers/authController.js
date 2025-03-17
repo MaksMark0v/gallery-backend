@@ -4,9 +4,10 @@ import {
   loginByCredentials
 } from '../repository/authRepo.js';
 
-const authUserDetailsController = async (req, res, next) => {  
+const authUserDetailsController = async (req, res, next) => {
   try {
     const userDetails = await getUserDetailsByEmail(req.auth.Email);
+
     if (!userDetails) {
       return res.status(401).json({ message: 'User not found' });
     }
@@ -25,7 +26,7 @@ const loginController = async (req, res, next) => {
       return res.status(401).json({ message: 'Something went wrong' });
     }
 
-    res.setHeader('Authorization' , results.token);
+    res.setHeader('Authorization', results.token);
 
     res.json({
       Id: results.user.Id,
@@ -39,11 +40,21 @@ const loginController = async (req, res, next) => {
 };
 
 const changePasswordController = async (req, res, next) => {
-  const { newPassword, Email } = req.body;
+  const { newPassword, userEmail } = req.body;
 
   try {
-    await changePassword(Email, newPassword);
-    res.json({ message: 'Password was changed' });
+    const results = await changePassword(userEmail, newPassword);
+    switch (results) {
+      case undefined:
+        return res.status(401).json({ message: 'Something went wrong' });
+
+      case false:
+        return res.status(403).json({ message: 'Password was wrong' });
+
+      default:
+        res.json({ message: 'Password was changed' });
+        break;
+    }
   } catch (error) {
     next(error);
   }
