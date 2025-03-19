@@ -44,3 +44,9 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+#Inteliji settings files
+.idea/
+
+# Mac OS system files
+.DS_Store
