@@ -17,4 +17,8 @@ export const loginSchema = {
 };
 
 const { password, ...other } = loginSchema;
-export const changePasswordSchema = { newPassword: password, ...other };
+export const changePasswordSchema = {
+  currentPassword: password,
+  newPassword: password,
+  ...other
+};

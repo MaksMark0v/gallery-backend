@@ -23,8 +23,6 @@ router.post(
   bodyValidate,
   changePasswordController
 );
-router
-  .route('/signup')
-  .post(createUserController);
+router.route('/signup').post(createUserController);
 
 export default router;
