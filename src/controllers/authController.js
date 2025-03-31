@@ -32,7 +32,8 @@ const loginController = async (req, res, next) => {
       Id: results.user.Id,
       FirstName: results.user.FirstName,
       LastName: results.user.LastName,
-      Email: results.user.Email
+      Email: results.user.Email,
+      AvatarUrl: results.user.AvatarUrl
     });
   } catch (error) {
     next(error);
