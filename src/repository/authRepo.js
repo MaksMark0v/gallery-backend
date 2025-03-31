@@ -36,10 +36,10 @@ export async function loginByCredentials(Email, Password) {
   return { user, token };
 }
 
-export async function changePassword(Email, Password) {
+export async function changePassword(Email, Password, newPassword) {
   const user = await User.findOne({
     where: { Email },
-    attributes: ['Id', 'Email']
+    attributes: ['Id', 'Email', 'PasswordHash', 'PasswordSalt']
   });
 
   if (!user) {
@@ -56,11 +56,12 @@ export async function changePassword(Email, Password) {
     return false;
   }
 
-  const { hash, salt } = hashPassword(Password);
+  const { hash, salt } = hashPassword(newPassword);
   user.PasswordHash = hash;
   user.PasswordSalt = salt;
 
   await user.save();
+  return true;
 }
 
 export async function getUserDetailsByEmail(email) {

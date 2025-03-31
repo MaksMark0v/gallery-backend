@@ -40,20 +40,28 @@ const loginController = async (req, res, next) => {
 };
 
 const changePasswordController = async (req, res, next) => {
-  const { newPassword, userEmail } = req.body;
+  const { currentPassword, newPassword, userEmail } = req.body;
 
   try {
-    const results = await changePassword(userEmail, newPassword);
+    const results = await changePassword(
+      userEmail,
+      currentPassword,
+      newPassword
+    );
+
     switch (results) {
       case undefined:
-        return res.status(401).json({ message: 'Something went wrong' });
+        return res.status(401).json({ message: 'You are not authorized' });
 
       case false:
         return res.status(403).json({ message: 'Password was wrong' });
 
-      default:
+      case true:
         res.json({ message: 'Password was changed' });
         break;
+
+      default:
+        return res.status(500).json({ message: 'Something went wrong' });
     }
   } catch (error) {
     next(error);
